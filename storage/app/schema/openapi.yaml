@@ -167,7 +167,7 @@ components:
     With:
       name: with
       in: query
-      description: relations
+      description: The relations of the resource
       required: false
       schema:
         type: array
