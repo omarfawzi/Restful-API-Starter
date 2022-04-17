@@ -10,7 +10,7 @@ use App\Modules\User\Conditions\HasEmail;
 use App\Modules\User\Conditions\HasPassword;
 use App\Modules\User\Conditions\UserDoesExist;
 use App\Modules\User\Conditions\UserDoesNotExist;
-use App\Modules\User\Request\UserRequest;
+use App\Modules\User\Request\UserDto;
 use App\Modules\User\Services\UserService;
 use App\Modules\User\Transformers\UserTransformer;
 use App\Modules\User\With\UserWith;
@@ -33,11 +33,11 @@ class UserController
             new UserDoesNotExist()
         ]);
 
-        $userDto = UserRequest::fromRequest($request);
+        $userDto = (new UserDto)->fromRequest($request);
 
         $user = $this->service->create($userDto);
 
-        $result = $this->transformer->transform($user, UserWith::createWithDefault());
+        $result = $this->transformer->transform($user, (new UserWith)->createWithDefault());
 
         return OpenApiResponse::created($request, $result);
     }
@@ -48,7 +48,7 @@ class UserController
             new UserDoesExist($id)
         ]);
 
-        $userDto = UserRequest::fromRequest($request);
+        $userDto = (new UserDto)->fromRequest($request);
 
         $user = $this->service->update($id, $userDto);
 
@@ -72,9 +72,9 @@ class UserController
 
     public function list(Request $request): JsonResponse
     {
-        $pagination = Pagination::fromRequest($request);
+        $pagination = (new Pagination)->fromRequest($request);
 
-        $filter = ApiFilter::fromRequest($request);
+        $filter = (new ApiFilter)->fromRequest($request);
 
         $users = $this->service->list($pagination, $filter);
 

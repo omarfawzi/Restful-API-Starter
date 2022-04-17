@@ -6,7 +6,7 @@ use App\Modules\Api\Utilities\ApiFilter;
 use App\Modules\Api\Utilities\Pagination;
 use App\Modules\User\Models\User;
 use App\Modules\User\Repositories\UserRepository;
-use App\Modules\User\Request\UserRequest;
+use App\Modules\User\Request\UserDto;
 use App\Modules\User\Resolver\UserResolver;
 use Illuminate\Support\Collection;
 
@@ -16,7 +16,7 @@ class UserService
     {
     }
 
-    public function create(UserRequest $dto): User
+    public function create(UserDto $dto): User
     {
         $user = $this->userRepository->create($dto->name, $dto->email, $dto->password);
 
@@ -27,7 +27,7 @@ class UserService
         return $user;
     }
 
-    public function update(int $id, UserRequest $dto): User
+    public function update(int $id, UserDto $dto): User
     {
         $user = $this->userResolver->resolveById($id);
 

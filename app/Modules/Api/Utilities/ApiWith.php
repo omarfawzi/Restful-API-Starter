@@ -6,16 +6,14 @@ class ApiWith extends ApiQuery
 {
     protected array $defaults = [];
 
-    public static function createWithDefault(): self
+    public function createWithDefault(): self
     {
-        $apiWith = new static();
-
-        foreach ($apiWith->defaults as $default)
+        foreach ($this->defaults as $default)
         {
-            $apiWith->bag[$default] = true;
+            $this->bag[$default] = true;
         }
 
-        return $apiWith;
+        return $this;
     }
 
     public function getQueryField(): string

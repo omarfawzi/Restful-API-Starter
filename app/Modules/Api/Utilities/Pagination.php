@@ -14,15 +14,13 @@ class Pagination
 
     public ?string $cursor = null;
 
-    public static function fromRequest(Request $request): self
+    public function fromRequest(Request $request): self
     {
-        $paginationParameter = new static();
+        $this->sortDir = $request->get('sortDir', $this->sortDir);
+        $this->sortBy = $request->get('sortBy', $this->sortBy);
+        $this->limit = $request->get('limit', $this->limit);
+        $this->cursor = $request->get('cursor', $this->cursor);
 
-        $paginationParameter->sortDir = $request->get('sortDir', $paginationParameter->sortDir);
-        $paginationParameter->sortBy = $request->get('sortBy', $paginationParameter->sortBy);
-        $paginationParameter->limit = $request->get('limit', $paginationParameter->limit);
-        $paginationParameter->cursor = $request->get('cursor', $paginationParameter->cursor);
-
-        return $paginationParameter;
+        return $this;
     }
 }

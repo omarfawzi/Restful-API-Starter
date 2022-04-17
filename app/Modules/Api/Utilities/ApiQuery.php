@@ -10,21 +10,19 @@ abstract class ApiQuery
 
     protected array $bag = [];
 
-    public static function fromRequest(Request $request): self
+    public function fromRequest(Request $request): self
     {
-        $apiQuery = new static();
-
-        $field = $apiQuery->getQueryField();
+        $field = $this->getQueryField();
 
         if (false === $request->query->has($field)){
-            return $apiQuery;
+            return $this;
         }
 
         foreach ($request->query($field) as $key => $values){
-            $apiQuery->bag[$key] = explode(self::DELIMITER, $values);
+            $this->bag[$key] = explode(self::DELIMITER, $values);
         }
 
-        return $apiQuery;
+        return $this;
     }
 
     public function has(string $key): bool
