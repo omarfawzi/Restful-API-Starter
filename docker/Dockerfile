@@ -13,4 +13,6 @@ WORKDIR /app
 
 COPY . /app
 
+COPY .env.example .env
+
 RUN composer install
