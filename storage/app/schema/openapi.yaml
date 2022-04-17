@@ -43,17 +43,24 @@ paths:
           description: filter by name
           required: false
           schema:
-            type: string
+            type: array
+            items:
+              type: string
+          explode: false
         - name: filter[email]
           in: query
           description: filter by email
           required: false
           schema:
-            type: string
+            type: array
+            items:
+              type: string
+          explode: false
         - $ref: '#/components/parameters/Limit'
         - $ref: '#/components/parameters/SortBy'
         - $ref: '#/components/parameters/SortDir'
         - $ref: '#/components/parameters/Cursor'
+        - $ref: '#/components/parameters/With'
       responses:
         200:
           $ref: '#/components/responses/UserCollection'
@@ -72,6 +79,7 @@ paths:
           required: true
           schema:
             type: integer
+        - $ref: '#/components/parameters/With'
       responses:
         200:
           $ref: '#/components/responses/User'
@@ -156,6 +164,16 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
   parameters:
+    With:
+      name: with
+      in: query
+      description: relations
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+      explode: false
     Limit:
       name: limit
       in: query
@@ -210,6 +228,7 @@ components:
           type: string
         token:
           type: string
+          nullable: true
     UserCollection:
       type: object
       properties:

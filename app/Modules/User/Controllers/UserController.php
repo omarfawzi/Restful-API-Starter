@@ -65,7 +65,9 @@ class UserController
 
         $user = $this->service->find($id);
 
-        $result = $this->transformer->transform($user, new UserWith());
+        $with = (new UserWith)->fromRequest($request);
+
+        $result = $this->transformer->transform($user, $with);
 
         return OpenApiResponse::success($request, $result);
     }
@@ -76,9 +78,11 @@ class UserController
 
         $filter = (new ApiFilter)->fromRequest($request);
 
+        $with = (new UserWith)->fromRequest($request);
+
         $users = $this->service->list($pagination, $filter);
 
-        $result = $this->transformer->transformCollection($users, $pagination, new UserWith());
+        $result = $this->transformer->transformCollection($users, $pagination, $with);
 
         return OpenApiResponse::success($request, $result);
     }

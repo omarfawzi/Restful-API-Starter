@@ -18,11 +18,7 @@ abstract class ApiQuery
             return $this;
         }
 
-        foreach ($request->query($field) as $key => $values){
-            $this->bag[$key] = explode(self::DELIMITER, $values);
-        }
-
-        return $this;
+        return $this->extractQueryField($request, $field);
     }
 
     public function has(string $key): bool
@@ -36,4 +32,6 @@ abstract class ApiQuery
     }
 
     abstract public function getQueryField(): string;
+
+    abstract public function extractQueryField(Request $request, string $field): self;
 }
