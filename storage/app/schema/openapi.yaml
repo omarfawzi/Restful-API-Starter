@@ -1,0 +1,260 @@
+openapi: 3.0.2
+info:
+  title: API Template
+  version: 1.0.0
+servers:
+  - url: http://{domain}/api/{version}
+    variables:
+      domain:
+        description: API Domain
+        default: localhost:8000
+        enum:
+          - localhost:8000
+      version:
+        description: API Version
+        default: v1
+        enum:
+          - v1
+security:
+  - Token: []
+paths:
+  '/users':
+    post:
+      tags:
+        - Users
+      summary: Create new user
+      security: []
+      requestBody:
+        $ref: '#/components/requestBodies/User'
+      responses:
+        201:
+          $ref: '#/components/responses/User'
+        400:
+          $ref: '#/components/responses/BadRequestError'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+    get:
+      tags:
+        - Users
+      summary: List users
+      parameters:
+        - name: filter[name]
+          in: query
+          description: filter by name
+          required: false
+          schema:
+            type: string
+        - name: filter[email]
+          in: query
+          description: filter by email
+          required: false
+          schema:
+            type: string
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/SortBy'
+        - $ref: '#/components/parameters/SortDir'
+        - $ref: '#/components/parameters/Cursor'
+      responses:
+        200:
+          $ref: '#/components/responses/UserCollection'
+        400:
+          $ref: '#/components/responses/BadRequestError'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+  '/users/{id}':
+    get:
+      tags:
+        - Users
+      summary: Get user
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          $ref: '#/components/responses/User'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+    patch:
+      tags:
+        - Users
+      summary: Update existing user
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        $ref: '#/components/requestBodies/User'
+      responses:
+        200:
+          $ref: '#/components/responses/User'
+        400:
+          $ref: '#/components/responses/BadRequestError'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+components:
+  securitySchemes:
+    Token:
+      type: http
+      scheme: bearer
+      description: Bearer token required for authentication
+      in: headers
+  headers:
+    Content-Type:
+      description: content type of the resource
+      schema:
+        type: string
+        enum:
+          - application/json
+  requestBodies:
+    User:
+      description: User resource
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserRequest'
+  responses:
+    User:
+      description: User resource
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
+    UserCollection:
+      description: User collection resource
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserCollection'
+      headers:
+        Content-Type:
+          $ref: '#/components/headers/Content-Type'
+    UnauthorizedError:
+      description: Unauthorized Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Unauthorized'
+    BadRequestError:
+      description: Bad Request Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFoundError:
+      description: Not Found Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    Limit:
+      name: limit
+      in: query
+      description: limit results
+      required: false
+      schema:
+        default: 100
+        type: integer
+    SortBy:
+      name: sortBy
+      in: query
+      description: sorting column
+      required: false
+      schema:
+        default: 'id'
+        type: string
+    SortDir:
+      name: sortDir
+      in: query
+      description: sorting direction
+      required: false
+      schema:
+        default: asc
+        type: string
+        enum:
+          - asc
+          - desc
+    Cursor:
+      name: cursor
+      in: query
+      description: the cursor pointing to the next page
+      required: false
+      schema:
+        $ref: '#/components/schemas/Cursor'
+  schemas:
+    User:
+      type: object
+      required:
+        - id
+        - name
+        - email
+      properties:
+        id:
+          type: integer
+          minimum: 1
+          readOnly: true
+        name:
+          type: string
+          minLength: 3
+        email:
+          format: email
+          type: string
+        token:
+          type: string
+    UserCollection:
+      type: object
+      properties:
+        entities:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        cursor:
+          $ref: '#/components/schemas/Cursor'
+    UserRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 3
+        email:
+          format: email
+          type: string
+        password:
+          format: password
+          type: string
+          pattern: '[A-Z]{2}[0-9]{4}'
+      minProperties: 1
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: The given data was invalid.
+        errors:
+          type: object
+          properties:
+            field:
+              type: string
+          example:
+            field: Something is wrong with this field!
+    Unauthorized:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Access token is missing or invalid.
+    Cursor:
+      type: string
+      nullable: true
+tags:
+  - name: Users
+    description: Application users
