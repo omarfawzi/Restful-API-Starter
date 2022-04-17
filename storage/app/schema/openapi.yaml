@@ -117,7 +117,7 @@ components:
       in: headers
   headers:
     Content-Type:
-      description: content type of the resource
+      description: Content Type of the resource
       schema:
         type: string
         enum:
@@ -204,7 +204,7 @@ components:
     Cursor:
       name: cursor
       in: query
-      description: the cursor pointing to the next page
+      description: The cursor pointing to the next page
       required: false
       schema:
         $ref: '#/components/schemas/Cursor'
