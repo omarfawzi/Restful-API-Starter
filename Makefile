@@ -1,5 +1,4 @@
 up:
-	@if [ ! -f .env ]; then cp .env.example .env; fi;
 	@docker-compose up -d
 
 stop:
@@ -22,6 +21,7 @@ migrate:
 	@docker-compose run --rm app bash -c "./artisan migrate; exit $?"
 
 rebuild:
+	@if [ ! -f .env ]; then cp .env.example .env; fi;
 	@docker-compose rm -fv; rm -rf ./storage/dbdata; # remove mysql volumes
 	@docker-compose down -t 0 -v --remove-orphans
 	@docker-compose build --pull
