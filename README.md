@@ -11,7 +11,7 @@ Tools used
 - MYSQL 8
 
 # Commands
-- `make up` to start the container and services
+- `make rebuild` to rebuild and start services.
 - `make swagger-ui` to see the open api specs
 
 Feel free to contribute.
