@@ -1,5 +1,5 @@
 up:
-        if [ -a .env ]; then cp .env.example .env; fi;
+    if [ -a .env ]; then cp .env.example .env; fi;
 	@docker-compose up -d
 
 stop:
