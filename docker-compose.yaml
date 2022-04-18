@@ -6,7 +6,7 @@ services:
       dockerfile: docker/Dockerfile
     command: 'php artisan serve --host=0.0.0.0'
     links:
-      - db
+      - mysql
       - redis
     volumes:
       - .:/app
@@ -14,18 +14,21 @@ services:
       - '8000:8000'
     env_file:
       - .env
-  db:
+  mysql:
     platform: linux/amd64
-    container_name: db
+    container_name: mysql
     image: mysql:8
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     environment:
       MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_ROOT_USER: ${DB_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
     volumes:
       - ./storage/dbdata:/var/lib/mysql
     ports:
       - '3307:3306'
+    env_file:
+      - .env
   redis:
     image: redis:7.0-rc-alpine
