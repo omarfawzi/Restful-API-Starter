@@ -8,8 +8,6 @@ services:
     links:
       - mysql
       - redis
-    volumes:
-      - .:/app
     ports:
       - '8000:8000'
     env_file:
@@ -25,7 +23,7 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
     volumes:
-      - ./storage/dbdata:/var/lib/mysql
+      - ./storage/mysqldata:/var/lib/mysql
     ports:
       - '3307:3306'
     env_file:

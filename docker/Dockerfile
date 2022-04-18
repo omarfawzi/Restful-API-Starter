@@ -14,3 +14,4 @@ WORKDIR /app
 COPY . .
 
 RUN composer install
+
