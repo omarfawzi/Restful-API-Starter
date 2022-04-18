@@ -22,7 +22,7 @@ migrate:
 
 rebuild:
 	@if [ ! -f .env ]; then cp .env.example .env; fi;
-	@docker-compose rm -fv; rm -rf ./storage/dbdata; # remove mysql volumes
+	@docker-compose rm -fv; rm -rf ./storage/mysqldata; # remove mysql volumes
 	@docker-compose down -t 0 -v --remove-orphans
 	@docker-compose build --pull
 	@docker-compose up -d
