@@ -11,7 +11,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class OpenApiMiddleware
 {
-    public function __construct(private ServerRequestInterface $serverRequest) {}
+    public function __construct(private ServerRequestInterface $serverRequest, private OpenApiValidator $validator) {}
 
     /**
      * Validates upcoming requests against the defined open api schema
@@ -23,9 +23,7 @@ class OpenApiMiddleware
      */
     public function handle(Request $request, Closure $next): mixed
     {
-        $validator = new OpenApiValidator();
-
-        $validator->validateRequest($this->serverRequest, $request);
+        $this->validator->validateRequest($this->serverRequest, $request);
 
         return $next($request);
     }
