@@ -42,13 +42,13 @@ class UserController
         return OpenApiResponse::created($request, $result);
     }
 
-    public function update(Request $request, int $id): JsonResponse
+    public function update(Request $request, int $id, UserDto $userDto): JsonResponse
     {
         Validator::validate($request, [
             new UserDoesExist($id)
         ]);
 
-        $userDto = (new UserDto)->fromRequest($request);
+        $userDto = $userDto->fromRequest($request);
 
         $user = $this->service->update($id, $userDto);
 
@@ -57,7 +57,7 @@ class UserController
         return OpenApiResponse::success($request, $result);
     }
 
-    public function show(Request $request, int $id): JsonResponse
+    public function show(Request $request, int $id, UserWith $userWith): JsonResponse
     {
         Validator::validate($request, [
             new UserDoesExist($id)
@@ -65,24 +65,24 @@ class UserController
 
         $user = $this->service->find($id);
 
-        $with = (new UserWith)->fromRequest($request);
+        $userWith = $userWith->fromRequest($request);
 
-        $result = $this->transformer->transform($user, $with);
+        $result = $this->transformer->transform($user, $userWith);
 
         return OpenApiResponse::success($request, $result);
     }
 
-    public function list(Request $request): JsonResponse
+    public function list(Request $request, Pagination $pagination, ApiFilter $apiFilter, UserWith $userWith): JsonResponse
     {
-        $pagination = (new Pagination)->fromRequest($request);
+        $pagination = $pagination->fromRequest($request);
 
-        $filter = (new ApiFilter)->fromRequest($request);
+        $apiFilter = $apiFilter->fromRequest($request);
 
-        $with = (new UserWith)->fromRequest($request);
+        $userWith = $userWith->fromRequest($request);
 
-        $users = $this->service->list($pagination, $filter);
+        $users = $this->service->list($pagination, $apiFilter);
 
-        $result = $this->transformer->transformCollection($users, $pagination, $with);
+        $result = $this->transformer->transformCollection($users, $pagination, $userWith);
 
         return OpenApiResponse::success($request, $result);
     }
