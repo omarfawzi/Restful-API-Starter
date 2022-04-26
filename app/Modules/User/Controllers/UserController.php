@@ -22,8 +22,7 @@ class UserController
     public function __construct(
         private UserTransformer $transformer,
         private UserService $service
-    ) {
-    }
+    ) {}
 
     public function create(Request $request): JsonResponse
     {
