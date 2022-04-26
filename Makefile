@@ -12,10 +12,10 @@ install:
 	@docker-compose run --rm app composer install
 
 bash:
-	docker-compose run --rm app bash
+	@docker-compose run --rm app bash
 
 db-bash:
-	docker exec -it db bash
+	@docker exec -it db bash
 
 migrate:
 	@docker-compose run --rm app bash -c "./artisan migrate; exit $?"
@@ -32,7 +32,7 @@ install-package:
 	@docker-compose run --rm app composer require $(name)
 
 swagger-ui:
-	docker run -d --rm \
+	@docker run -d --rm \
 		--platform linux/amd64 \
 		--name swagger-ui \
 		-p 8081:8080 \
@@ -41,4 +41,4 @@ swagger-ui:
 		swaggerapi/swagger-ui
 
 stop-swagger-ui:
-	docker stop swagger-ui
+	@docker stop swagger-ui
