@@ -13,9 +13,9 @@ class OpenApiResponse
     /**
      * @throws OpenApiError
      */
-    public static function noContent(Request $request, array $data): JsonResponse
+    public static function noContent(Request $request): JsonResponse
     {
-        return self::send($request, $data, \Illuminate\Http\Response::HTTP_NO_CONTENT);
+        return self::send($request, [], \Illuminate\Http\Response::HTTP_NO_CONTENT);
     }
 
     /**
