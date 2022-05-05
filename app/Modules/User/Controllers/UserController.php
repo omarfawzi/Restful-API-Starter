@@ -24,7 +24,7 @@ class UserController
         private UserService $service
     ) {}
 
-    public function create(Request $request): JsonResponse
+    public function create(Request $request, UserDto $userDto, UserWith $userWith): JsonResponse
     {
         Validator::validate($request, [
             new HasPassword(),
@@ -32,11 +32,11 @@ class UserController
             new UserDoesNotExist()
         ]);
 
-        $userDto = (new UserDto)->fromRequest($request);
+        $userDto = $userDto->fromRequest($request);
 
         $user = $this->service->create($userDto);
 
-        $result = $this->transformer->transform($user, (new UserWith)->createWithDefault());
+        $result = $this->transformer->transform($user, $userWith->createWithDefault());
 
         return OpenApiResponse::created($request, $result);
     }
