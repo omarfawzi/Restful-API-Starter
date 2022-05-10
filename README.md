@@ -13,6 +13,7 @@ Tools used
 # Commands
 - `make rebuild` to rebuild and start services.
 - `make swagger-ui` to see the open api specs over http://localhost:8081.
+- `make test` to start running tests.
 
 Have a look over https://github.com/omarfawzi/Restful-API-Template/blob/main/Makefile for more options.
 
