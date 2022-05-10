@@ -12,6 +12,6 @@ Tools used
 
 # Commands
 - `make rebuild` to rebuild and start services.
-- `make swagger-ui` to see the open api specs
+- `make swagger-ui` to see the open api specs over http://localhost:8081.
 
 Feel free to contribute.
