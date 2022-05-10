@@ -1,9 +1,8 @@
 # Restful API Template
 
-API Template for basic restful services
+API Template for clean restful services
 
-Tools used
-
+Powered By
 - Open API (3.0.2) + [OpenAPI PSR-7 Message (HTTP Request/Response) Validator](https://github.com/thephpleague/openapi-psr7-validator)
 - Laravel 9
 - PHP 8.1.4
