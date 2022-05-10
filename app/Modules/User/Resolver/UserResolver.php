@@ -3,12 +3,15 @@
 namespace App\Modules\User\Resolver;
 
 use App\Modules\User\Models\User;
+use App\Modules\User\Repositories\UserRepository;
 
 class UserResolver
 {
     public array $cacheByEmail = [];
 
     public array $cacheById = [];
+    
+    public function __construct(private UserRepository $userRepository) {}
 
     /**
      * @param string $email
@@ -20,7 +23,7 @@ class UserResolver
             return $this->cacheByEmail[$email];
         }
 
-        return $this->cacheByEmail[$email] = User::query()->where('email', $email)->first();
+        return $this->cacheByEmail[$email] = $this->userRepository->findByEmail($email);
     }
 
     /**
@@ -33,6 +36,6 @@ class UserResolver
             return $this->cacheById[$id];
         }
 
-        return $this->cacheById[$id] = User::query()->where('id', $id)->first();
+        return $this->cacheById[$id] = $this->userRepository->findById($id);
     }
 }
