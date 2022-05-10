@@ -25,7 +25,7 @@ class ApiMiddleware
 
         if (null === PersonalAccessToken::findToken($token))
         {
-            throw new ApiError('Access Token is missing or not found', [],Response::HTTP_UNAUTHORIZED);
+            throw new ApiError('Access Token is missing or not found', [], Response::HTTP_UNAUTHORIZED);
         }
 
         return $next($request);
