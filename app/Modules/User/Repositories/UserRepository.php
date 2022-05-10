@@ -46,4 +46,14 @@ class UserRepository
             ->orderBy($pagination->sortBy, $pagination->sortDir)
             ->get();
     }
+    
+    public function findByEmail(string $email): ?User
+    {
+        return User::query()->where('email', $email)->first();
+    }
+    
+    public function findById(int $id): ?User
+    {
+        return User::query()->where('id', $id)->first();
+    }
 }
