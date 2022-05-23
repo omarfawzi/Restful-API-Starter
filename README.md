@@ -2,12 +2,12 @@
 
 API Template for clean restful services
 
-Powered By
-- Open API (3.0.2) + [OpenAPI PSR-7 Message (HTTP Request/Response) Validator](https://github.com/thephpleague/openapi-psr7-validator)
-- Laravel 9
+Built on top of
 - PHP 8.1.4
-- Docker
 - MYSQL 8
+- Laravel 9
+- Open API (3.0.2) + [OpenAPI PSR-7 Message (HTTP Request/Response) Validator](https://github.com/thephpleague/openapi-psr7-validator)
+- Docker
 
 # Commands
 - `make rebuild` to rebuild and start services.
