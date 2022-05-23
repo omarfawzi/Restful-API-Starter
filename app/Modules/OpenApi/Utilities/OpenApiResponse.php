@@ -39,7 +39,7 @@ class OpenApiResponse
      */
     private static function send(Request $request, array $data, int $statusCode): JsonResponse
     {
-        $validator = new OpenApiValidator();
+        $validator = app(OpenApiValidator::class);
 
         $response = new Response($statusCode, ['Content-Type' => 'application/json'], json_encode($data));
 
