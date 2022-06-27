@@ -22,7 +22,7 @@ Added under `storage/app/schema/openapi.yaml` ([Specs](https://github.com/omarfa
 
 # Improvements
 
-When your project specifications grows bigger having one yaml file to describe your specifications would become a pain in the **s therefore you can split the specifications into multiple yaml files, create a main yaml file and reference the other files using a package like [Swagger Cli](https://www.npmjs.com/package/swagger-cli).
+When your project specifications grows bigger having one yaml file to describe your specifications would become a pain in the **s therefore you can split the specifications into multiple yaml files, create a main yaml file, reference the other files in your specifications, build, validation and combine all of them into one file using a package like [Swagger Cli](https://www.npmjs.com/package/swagger-cli).
 
 # Contributions
 
