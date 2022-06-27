@@ -20,7 +20,7 @@ Have a look over [Makefile](https://github.com/omarfawzi/Restful-API-Template/bl
 
 # Specifications 
 
-Added under `storage/app/schema/openapi.yaml` ([Specs](https://github.com/omarfawzi/Restful-API-Template/blob/main/storage/app/schema/openapi.yaml)).
+Added under `storage/app/schema/openapi.yaml` ([Link](https://github.com/omarfawzi/Restful-API-Template/blob/main/storage/app/schema/openapi.yaml)).
 
 # Improvements
 
