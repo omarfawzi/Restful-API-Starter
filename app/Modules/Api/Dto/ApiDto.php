@@ -6,14 +6,16 @@ use Illuminate\Http\Request;
 
 class ApiDto
 {
-    public function fromRequest(Request $request): self
+    public static function fromRequest(Request $request): static
     {
+        $static = new static();
+
         foreach ($request->request->keys() as $key){
-            if (property_exists($this, $key)) {
-                $this->{$key} = $request->get($key);
+            if (property_exists($static, $key)) {
+                $static->{$key} = $request->get($key);
             }
         }
 
-        return $this;
+        return $static;
     }
 }

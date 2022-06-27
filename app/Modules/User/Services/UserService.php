@@ -6,7 +6,7 @@ use App\Modules\Api\Utilities\ApiFilter;
 use App\Modules\Api\Utilities\Pagination;
 use App\Modules\User\Models\User;
 use App\Modules\User\Repositories\UserRepository;
-use App\Modules\User\Request\UserDto;
+use App\Modules\User\Dto\UserDto;
 use App\Modules\User\Resolver\UserResolver;
 use Illuminate\Support\Collection;
 

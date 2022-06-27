@@ -10,15 +10,17 @@ abstract class ApiQuery
 
     protected array $bag = [];
 
-    public function fromRequest(Request $request): self
+    public static function fromRequest(Request $request): static
     {
-        $field = $this->getQueryField();
+        $static = new static();
+
+        $field = $static->getQueryField();
 
         if (false === $request->query->has($field)){
-            return $this;
+            return $static;
         }
 
-        return $this->extractQueryField($request, $field);
+        return $static->extractQueryField($request, $field);
     }
 
     public function has(string $key): bool

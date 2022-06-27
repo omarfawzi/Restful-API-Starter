@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\User\Request;
+namespace App\Modules\User\Dto;
 
 use App\Modules\Api\Dto\ApiDto;
 

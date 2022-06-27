@@ -3,6 +3,7 @@
 namespace App\Modules\User\Controllers;
 
 use App\Modules\Api\Utilities\ApiFilter;
+use App\Modules\Api\Utilities\ApiWith;
 use App\Modules\Api\Utilities\Pagination;
 use App\Modules\Api\Validator\Validator;
 use App\Modules\OpenApi\Utilities\OpenApiResponse;
@@ -10,7 +11,7 @@ use App\Modules\User\Conditions\HasEmail;
 use App\Modules\User\Conditions\HasPassword;
 use App\Modules\User\Conditions\UserDoesExist;
 use App\Modules\User\Conditions\UserDoesNotExist;
-use App\Modules\User\Request\UserDto;
+use App\Modules\User\Dto\UserDto;
 use App\Modules\User\Services\UserService;
 use App\Modules\User\Transformers\UserTransformer;
 use App\Modules\User\With\UserWith;
@@ -24,7 +25,7 @@ class UserController
         private UserService $service
     ) {}
 
-    public function create(Request $request, UserDto $userDto, UserWith $userWith): JsonResponse
+    public function create(Request $request): JsonResponse
     {
         Validator::validate($request, [
             new HasPassword(),
@@ -32,31 +33,31 @@ class UserController
             new UserDoesNotExist()
         ]);
 
-        $userDto = $userDto->fromRequest($request);
+        $userDto = UserDto::fromRequest($request);
 
         $user = $this->service->create($userDto);
 
-        $result = $this->transformer->transform($user, $userWith->createWithDefault());
+        $result = $this->transformer->transform($user, UserWith::createWithDefault());
 
         return OpenApiResponse::created($request, $result);
     }
 
-    public function update(Request $request, int $id, UserDto $userDto): JsonResponse
+    public function update(Request $request, int $id): JsonResponse
     {
         Validator::validate($request, [
             new UserDoesExist($id)
         ]);
 
-        $userDto = $userDto->fromRequest($request);
+        $userDto = UserDto::fromRequest($request);
 
         $user = $this->service->update($id, $userDto);
 
-        $result = $this->transformer->transform($user, new UserWith());
+        $result = $this->transformer->transform($user, ApiWith::createWithDefault());
 
         return OpenApiResponse::success($request, $result);
     }
 
-    public function show(Request $request, int $id, UserWith $userWith): JsonResponse
+    public function show(Request $request, int $id): JsonResponse
     {
         Validator::validate($request, [
             new UserDoesExist($id)
@@ -64,20 +65,20 @@ class UserController
 
         $user = $this->service->find($id);
 
-        $userWith = $userWith->fromRequest($request);
+        $userWith = UserWith::fromRequest($request);
 
         $result = $this->transformer->transform($user, $userWith);
 
         return OpenApiResponse::success($request, $result);
     }
 
-    public function list(Request $request, Pagination $pagination, ApiFilter $apiFilter, UserWith $userWith): JsonResponse
+    public function list(Request $request): JsonResponse
     {
-        $pagination = $pagination->fromRequest($request);
+        $pagination = Pagination::fromRequest($request);
 
-        $apiFilter = $apiFilter->fromRequest($request);
+        $apiFilter = ApiFilter::fromRequest($request);
 
-        $userWith = $userWith->fromRequest($request);
+        $userWith = UserWith::fromRequest($request);
 
         $users = $this->service->list($pagination, $apiFilter);
 
