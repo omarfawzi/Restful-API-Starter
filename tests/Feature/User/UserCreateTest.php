@@ -2,12 +2,12 @@
 
 namespace Tests\Feature\User;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
 class UserCreateTest extends TestCase
 {
-    use DatabaseTransactions;
+    use DatabaseMigrations;
 
     /**
      * @param array $payload
