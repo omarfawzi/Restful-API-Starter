@@ -23,7 +23,7 @@ abstract class RequestHandler
     /**
      * @return Condition[]
      */
-    abstract public function getConditions(Request $request): array;
+    abstract public function getConditions(): array;
 
     abstract public function processRequest(Request $request): JsonResponse;
 
