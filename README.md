@@ -14,7 +14,13 @@ Built on top of
 - `make swagger-ui` to see the open api specs over [localhost](http://localhost:8081).
 - `make test` to start running tests.
 
-Specifications are added under `storage/app/schema/openapi.yaml` ([Specs](https://github.com/omarfawzi/Restful-API-Template/blob/main/storage/app/schema/openapi.yaml)).
+# Specifications 
+
+Added under `storage/app/schema/openapi.yaml` ([Specs](https://github.com/omarfawzi/Restful-API-Template/blob/main/storage/app/schema/openapi.yaml)).
+
+# Improvements
+
+When your project specifications grows bigger having one yaml file to describe your specifications would become a pain in the **s therefore you can split the specifications into multiple yaml files, create a main yaml file and reference the other files using a package like [Swagger Cli](https://www.npmjs.com/package/swagger-cli).
 
 Have a look over [Makefile](https://github.com/omarfawzi/Restful-API-Template/blob/main/Makefile) for more options.
 
