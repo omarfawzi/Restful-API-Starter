@@ -4,7 +4,9 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile
-    command: 'php artisan serve --host=0.0.0.0'
+    command: 'composer install && php artisan serve --host=0.0.0.0'
+    volumes:
+      - .:/app
     links:
       - mysql
       - redis
