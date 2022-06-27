@@ -21,7 +21,7 @@ class CreateUser extends RequestHandler
         private UserService $service
     ) {}
 
-    public function getConditions(Request $request): array
+    public function getConditions(): array
     {
         return [
             new HasPassword(),
