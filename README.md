@@ -14,6 +14,8 @@ Built on top of
 - `make swagger-ui` to see the open api specs over [localhost](http://localhost:8081).
 - `make test` to start running tests.
 
+Specifications are added under storage `storage/app/schema/openapi.yaml` ([Specs](https://github.com/omarfawzi/Restful-API-Template/blob/main/storage/app/schema/openapi.yaml)).
+
 Have a look over [Makefile](https://github.com/omarfawzi/Restful-API-Template/blob/main/Makefile) for more options.
 
 Feel free to contribute.
