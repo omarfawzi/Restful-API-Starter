@@ -19,7 +19,7 @@ class GetUser extends RequestHandler
         private UserService $service
     ) {}
 
-    public function getValidators(Request $request): array
+    public function getConditions(Request $request): array
     {
         return [
             new UserDoesExist($this->getPathParameterAsInteger('id'))

@@ -15,7 +15,7 @@ abstract class RequestHandler
     {
         $this->request = $request;
 
-        Validator::validate($request, $this->getValidators($request));
+        Validator::validate($request, $this->getConditions($request));
 
         return $this->processRequest($request);
     }
@@ -23,7 +23,7 @@ abstract class RequestHandler
     /**
      * @return Condition[]
      */
-    abstract public function getValidators(Request $request): array;
+    abstract public function getConditions(Request $request): array;
 
     abstract public function processRequest(Request $request): JsonResponse;
 
