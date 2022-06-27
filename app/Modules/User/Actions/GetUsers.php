@@ -20,7 +20,7 @@ class GetUsers extends RequestHandler
         private UserService $service
     ) {}
 
-    public function getConditions(Request $request): array
+    public function getConditions(): array
     {
         return [];
     }
