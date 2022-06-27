@@ -44,4 +44,4 @@ stop-swagger-ui:
 	@docker stop swagger-ui
 
 test:
-    @docker-compose run --rm app bash -c "./artisan test; exit $?"
+	@docker-compose run --rm app bash -c "./artisan test; exit $?"
