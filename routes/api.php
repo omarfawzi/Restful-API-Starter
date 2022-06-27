@@ -2,7 +2,10 @@
 
 use App\Modules\Api\Middlewares\ApiMiddleware;
 use App\Modules\OpenApi\Middlewares\OpenApiMiddleware;
-use App\Modules\User\Controllers\UserController;
+use App\Modules\User\Actions\CreateUser;
+use App\Modules\User\Actions\GetUser;
+use App\Modules\User\Actions\GetUsers;
+use App\Modules\User\Actions\UpdateUser;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,11 +21,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'v1', 'middleware' => OpenApiMiddleware::class], function () {
     Route::group(['prefix' => 'users'], function () {
-        Route::post('/', [UserController::class, 'create']);
+        Route::post('/', CreateUser::class);
         Route::group(['middleware' => ApiMiddleware::class], function () {
-            Route::get('/', [UserController::class, 'list']);
-            Route::get('{id}', [UserController::class, 'show']);
-            Route::patch('{id}', [UserController::class, 'update']);
+            Route::get('/', GetUsers::class);
+            Route::get('{id}', GetUser::class);
+            Route::patch('{id}', UpdateUser::class);
         });
     });
 });

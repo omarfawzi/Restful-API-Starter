@@ -1,31 +1,31 @@
 <?php
 
-namespace App\Modules\User\Controllers;
+namespace App\Modules\User\Actions;
 
+use App\Modules\Api\Conditions\Condition;
+use App\Modules\Api\Handlers\RequestHandler;
 use App\Modules\Api\Utilities\ApiFilter;
-use App\Modules\Api\Utilities\ApiWith;
 use App\Modules\Api\Utilities\Pagination;
-use App\Modules\Api\Validator\Validator;
 use App\Modules\OpenApi\Utilities\OpenApiResponse;
-use App\Modules\User\Conditions\HasEmail;
-use App\Modules\User\Conditions\HasPassword;
-use App\Modules\User\Conditions\UserDoesExist;
-use App\Modules\User\Conditions\UserDoesNotExist;
-use App\Modules\User\Dto\UserDto;
 use App\Modules\User\Services\UserService;
 use App\Modules\User\Transformers\UserTransformer;
 use App\Modules\User\With\UserWith;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class UserController
+class GetUsers extends RequestHandler
 {
     public function __construct(
         private UserTransformer $transformer,
         private UserService $service
     ) {}
 
-    public function list(Request $request): JsonResponse
+    public function getValidators(Request $request): array
+    {
+        return [];
+    }
+
+    public function processRequest(Request $request): JsonResponse
     {
         $pagination = Pagination::fromRequest($request);
 
