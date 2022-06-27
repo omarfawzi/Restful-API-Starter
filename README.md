@@ -1,6 +1,8 @@
-# Restful API Template
+# Restful API Design Starter
 
-API Template for clean restful services
+Sometimes it's a hassle to come up with some good api design for your project therefore i designed this project, the project encourages the best practices of how your code modules and services looks like in order to make them less error prune and achieve high testability.  
+
+Please keep in mind that this is not the best design you can get but it's just a starter probably you will need to modify your template a little bit before integration it with real time business.
 
 Built on top of
 - PHP 8.1.4
