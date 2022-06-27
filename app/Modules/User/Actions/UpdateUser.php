@@ -20,7 +20,7 @@ class UpdateUser extends RequestHandler
     ) {
     }
 
-    public function getConditions(Request $request): array
+    public function getConditions(): array
     {
         return [
             new UserDoesExist($this->getPathParameterAsInteger('id'))
