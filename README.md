@@ -28,4 +28,4 @@ When your project specifications grows bigger having one yaml file to describe y
 
 # Contributions
 
-Feel free to create a new pull request.
+Feel free to create Pull Requests.
