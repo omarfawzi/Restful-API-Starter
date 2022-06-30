@@ -8,8 +8,10 @@ use App\Modules\OpenApi\Contexts\OpenApiContext;
 use App\Modules\OpenApi\Errors\OpenApiError;
 use App\Modules\OpenApi\Handlers\OpenApiHandler;
 use App\Modules\OpenApi\Validator\OpenApiValidator;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use League\OpenAPIValidation\PSR7\Exception\NoPath;
 use League\OpenAPIValidation\PSR7\SpecFinder;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ServerRequestInterface;
@@ -21,23 +23,19 @@ class OpenApiController
 
     public function __invoke(Request $request): JsonResponse
     {
-        try {
-            $context = $this->validator->validateRequest($this->serverRequest);
-        } catch (OpenApiError $e) {
-            $data = array_filter([
-                'message' => $e->getMessage(),
-                'errors' => $e->getErrors()
-            ]);
-            return new JsonResponse($data, $e->getCode());
-        } catch (Throwable $e){
-            return new JsonResponse(['message' => 'Internal Error', 'errors' => [$e->getMessage()]], \Symfony\Component\HttpFoundation\Response::HTTP_INTERNAL_SERVER_ERROR);
+        $responseOrContext = $this->handleRequest();
+
+        if ($responseOrContext instanceof JsonResponse){
+            return $responseOrContext;
         }
 
+        return $this->handleResponse($request, $responseOrContext);
+    }
+
+    private function handleResponse(Request $request, OpenApiContext $context): JsonResponse
+    {
         try {
-            $handlerClass = $this->getHandlerClass($context);
-            /** @var RequestHandler $handler */
-            $handler = app($handlerClass);
-            $response = $handler->__invoke($request);
+            $response = $this->getRequestHandler($context)->__invoke($request);
             $this->validator->validateResponse($context, $response);
         } catch (ApiError $e) {
             $data = array_filter([
@@ -47,7 +45,7 @@ class OpenApiController
 
             $response = new Response($e->getCode(), ['Content-Type' => 'application/json'], json_encode($data));
             $this->validator->validateResponse($context, $response);
-        } catch (Throwable $e){
+        } catch (Throwable $e) {
             $response = new Response(
                 \Symfony\Component\HttpFoundation\Response::HTTP_INTERNAL_SERVER_ERROR,
                 ['Content-Type' => 'application/json'],
@@ -55,16 +53,45 @@ class OpenApiController
             );
         }
 
-
         return new JsonResponse(json_decode((string)$response->getBody(), true), $response->getStatusCode());
     }
 
-    private function getHandlerClass(OpenApiContext $context): string
+    private function handleRequest(): OpenApiContext|JsonResponse
+    {
+        try {
+            return $this->validator->validateRequest($this->serverRequest);
+        } catch (OpenApiError $e) {
+            $data = array_filter([
+                'message' => $e->getMessage(),
+                'errors' => $e->getErrors()
+            ]);
+            return new JsonResponse($data, $e->getCode());
+        } catch (Throwable $e) {
+            return new JsonResponse(
+                ['message' => 'Internal Error', 'errors' => [$e->getMessage()]],
+                \Symfony\Component\HttpFoundation\Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
+    /**
+     * @throws NoPath
+     */
+    private function getRequestHandler(OpenApiContext $context): RequestHandler
     {
         $specFinder = new SpecFinder($context->openApi);
 
         $operation = $specFinder->findOperationSpec($context->operationAddress);
 
-        return OpenApiHandler::MAP[$operation->operationId];
+        if (false === array_key_exists($operation->operationId, OpenApiHandler::MAP)) {
+            throw new Exception(
+                sprintf(
+                    'Operation not implemented, please add the operation and implementation to %s::MAP',
+                    OpenApiHandler::class
+                )
+            );
+        }
+
+        return app(OpenApiHandler::MAP[$operation->operationId]);
     }
 }
