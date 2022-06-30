@@ -11,8 +11,8 @@ use App\Modules\User\Dto\UserDto;
 use App\Modules\User\Services\UserService;
 use App\Modules\User\Transformers\UserTransformer;
 use App\Modules\User\With\UserWith;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Nyholm\Psr7\Response;
 
 class CreateUser extends RequestHandler
 {
@@ -30,7 +30,7 @@ class CreateUser extends RequestHandler
         ];
     }
 
-    public function processRequest(Request $request): JsonResponse
+    public function processRequest(Request $request): Response
     {
         $userDto = UserDto::fromRequest($request);
 
@@ -38,6 +38,6 @@ class CreateUser extends RequestHandler
 
         $result = $this->transformer->transform($user, UserWith::createWithDefault());
 
-        return OpenApiResponse::created($request, $result);
+        return OpenApiResponse::created($result);
     }
 }

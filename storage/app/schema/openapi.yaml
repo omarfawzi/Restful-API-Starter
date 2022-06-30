@@ -23,6 +23,7 @@ paths:
       tags:
         - Users
       summary: Create new user
+      operationId: createUser
       security: []
       requestBody:
         $ref: '#/components/requestBodies/User'
@@ -37,6 +38,7 @@ paths:
       tags:
         - Users
       summary: List users
+      operationId: getUsers
       parameters:
         - name: filter[name]
           in: query
@@ -73,6 +75,7 @@ paths:
       tags:
         - Users
       summary: Get user
+      operationId: getUser
       parameters:
         - name: id
           in: path
@@ -91,6 +94,7 @@ paths:
       tags:
         - Users
       summary: Update existing user
+      operationId: updateUser
       parameters:
         - name: id
           in: path

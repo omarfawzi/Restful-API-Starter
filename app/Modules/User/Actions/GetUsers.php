@@ -9,8 +9,8 @@ use App\Modules\OpenApi\Utilities\OpenApiResponse;
 use App\Modules\User\Services\UserService;
 use App\Modules\User\Transformers\UserTransformer;
 use App\Modules\User\With\UserWith;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Nyholm\Psr7\Response;
 
 class GetUsers extends RequestHandler
 {
@@ -24,7 +24,7 @@ class GetUsers extends RequestHandler
         return [];
     }
 
-    public function processRequest(Request $request): JsonResponse
+    public function processRequest(Request $request): Response
     {
         $pagination = Pagination::fromRequest($request);
 
@@ -36,6 +36,6 @@ class GetUsers extends RequestHandler
 
         $result = $this->transformer->transformCollection($users, $pagination, $userWith);
 
-        return OpenApiResponse::success($request, $result);
+        return OpenApiResponse::success($result);
     }
 }

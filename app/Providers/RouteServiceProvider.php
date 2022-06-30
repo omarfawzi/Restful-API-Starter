@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Modules\OpenApi\Controllers\OpenApiController;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -38,9 +39,9 @@ class RouteServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         $this->routes(function () {
-            Route::prefix('api')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/api.php'));
+            Route::any('/api/v1/{any}', OpenApiController::class)
+                ->where('any', '.*')
+                ->name('/api/v1/{any}');
         });
     }
 

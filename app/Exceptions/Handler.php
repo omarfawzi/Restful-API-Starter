@@ -2,12 +2,8 @@
 
 namespace App\Exceptions;
 
-use App\Modules\Api\Errors\ApiError;
 use App\Modules\OpenApi\Errors\OpenApiError;
-use App\Modules\OpenApi\Validator\OpenApiValidator;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Http\Request;
-use Nyholm\Psr7\Response;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -42,25 +38,7 @@ class Handler extends ExceptionHandler
 
     private function registerErrorHandlers(): void
     {
-        $this->handleApiError();
         $this->handleOpenApiError();
-    }
-
-    private function handleApiError(): void
-    {
-        $this->renderable(function (ApiError $e, Request $request) {
-            $data = array_filter([
-                'message' => $e->getMessage(),
-                'errors' => $e->getErrors()
-            ]);
-            $validator = new OpenApiValidator();
-
-            $response = new Response($e->getCode(), ['Content-Type' => 'application/json'], json_encode($data));
-
-            $validator->validateResponse($request, $response);
-
-            return response()->json($data, $e->getCode());
-        });
     }
 
     private function handleOpenApiError(): void

@@ -9,8 +9,8 @@ use App\Modules\User\Conditions\UserDoesExist;
 use App\Modules\User\Dto\UserDto;
 use App\Modules\User\Services\UserService;
 use App\Modules\User\Transformers\UserTransformer;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Nyholm\Psr7\Response;
 
 class UpdateUser extends RequestHandler
 {
@@ -27,7 +27,7 @@ class UpdateUser extends RequestHandler
         ];
     }
 
-    public function processRequest(Request $request): JsonResponse
+    public function processRequest(Request $request): Response
     {
         $userDto = UserDto::fromRequest($request);
 
@@ -35,6 +35,6 @@ class UpdateUser extends RequestHandler
 
         $result = $this->transformer->transform($user, ApiWith::createWithDefault());
 
-        return OpenApiResponse::success($request, $result);
+        return OpenApiResponse::success($result);
     }
 }

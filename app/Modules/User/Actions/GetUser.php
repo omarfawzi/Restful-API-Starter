@@ -8,8 +8,8 @@ use App\Modules\User\Conditions\UserDoesExist;
 use App\Modules\User\Services\UserService;
 use App\Modules\User\Transformers\UserTransformer;
 use App\Modules\User\With\UserWith;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Nyholm\Psr7\Response;
 
 class GetUser extends RequestHandler
 {
@@ -25,7 +25,7 @@ class GetUser extends RequestHandler
         ];
     }
 
-    public function processRequest(Request $request): JsonResponse
+    public function processRequest(Request $request): Response
     {
         $user = $this->service->find($this->getPathParameterAsInteger('id'));
 
@@ -33,6 +33,6 @@ class GetUser extends RequestHandler
 
         $result = $this->transformer->transform($user, $userWith);
 
-        return OpenApiResponse::success($request, $result);
+        return OpenApiResponse::success($result);
     }
 }

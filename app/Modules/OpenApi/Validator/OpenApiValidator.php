@@ -2,6 +2,7 @@
 
 namespace App\Modules\OpenApi\Validator;
 
+use App\Modules\OpenApi\Contexts\OpenApiContext;
 use App\Modules\OpenApi\Errors\OpenApiError;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -16,22 +17,22 @@ class OpenApiValidator
 {
     /**
      * @param ServerRequestInterface $serverRequest
-     * @param Request $request
+     * @return OpenApiContext
      * @throws OpenApiError
      */
-    public function validateRequest(ServerRequestInterface $serverRequest, Request $request): void
+    public function validateRequest(ServerRequestInterface $serverRequest): OpenApiContext
     {
-        $address = new OperationAddress("/{$request->route()->uri}", strtolower($request->getMethod()));
-
         $schema = $this->getOpenApiSchema();
 
-        $validator = (new ValidatorBuilder())->fromYaml($schema)->getRoutedRequestValidator();
+        $validator = (new ValidatorBuilder())->fromYaml($schema)->getServerRequestValidator();
 
         try {
-            $validator->validate($address, $serverRequest);
+            $address = $validator->validate($serverRequest);
         } catch (ValidationFailed $e) {
             throw $this->toOpenApiError($e);
         }
+
+        return new OpenApiContext($validator->getSchema(), $address);
     }
 
     /**
@@ -39,16 +40,12 @@ class OpenApiValidator
      * @param ResponseInterface $response
      * @throws OpenApiError
      */
-    public function validateResponse(Request $request, ResponseInterface $response): void
+    public function validateResponse(OpenApiContext $context, ResponseInterface $response): void
     {
-        $address = new OperationAddress("/{$request->route()->uri}", strtolower($request->getMethod()));
-
-        $schema = $this->getOpenApiSchema();
-
-        $validator = (new ValidatorBuilder())->fromYaml($schema)->getResponseValidator();
+        $validator = (new ValidatorBuilder())->fromSchema($context->openApi)->getResponseValidator();
 
         try {
-            $validator->validate($address, $response);
+            $validator->validate($context->operationAddress, $response);
         } catch (ValidationFailed $e) {
             throw $this->toOpenApiError($e);
         }

@@ -3,9 +3,6 @@
 namespace App\Modules\OpenApi\Utilities;
 
 use App\Modules\OpenApi\Errors\OpenApiError;
-use App\Modules\OpenApi\Validator\OpenApiValidator;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Nyholm\Psr7\Response;
 
 class OpenApiResponse
@@ -13,38 +10,32 @@ class OpenApiResponse
     /**
      * @throws OpenApiError
      */
-    public static function noContent(Request $request): JsonResponse
+    public static function noContent(): Response
     {
-        return self::send($request, [], \Illuminate\Http\Response::HTTP_NO_CONTENT);
+        return self::send([], \Illuminate\Http\Response::HTTP_NO_CONTENT);
     }
 
     /**
      * @throws OpenApiError
      */
-    public static function created(Request $request, array $data): JsonResponse
+    public static function created(array $data): Response
     {
-        return self::send($request, $data, \Illuminate\Http\Response::HTTP_CREATED);
+        return self::send($data, \Illuminate\Http\Response::HTTP_CREATED);
     }
 
     /**
      * @throws OpenApiError
      */
-    public static function success(Request $request, array $data): JsonResponse
+    public static function success(array $data): Response
     {
-        return self::send($request, $data, \Illuminate\Http\Response::HTTP_OK);
+        return self::send($data, \Illuminate\Http\Response::HTTP_OK);
     }
 
     /**
      * @throws OpenApiError
      */
-    private static function send(Request $request, array $data, int $statusCode): JsonResponse
+    private static function send(array $data, int $statusCode): Response
     {
-        $validator = app(OpenApiValidator::class);
-
-        $response = new Response($statusCode, ['Content-Type' => 'application/json'], json_encode($data));
-
-        $validator->validateResponse($request, $response);
-
-        return new JsonResponse($data, $statusCode);
+        return new Response($statusCode, ['Content-Type' => 'application/json'], json_encode($data));
     }
 }
