@@ -76,7 +76,8 @@ class OpenApiController
         if (false === array_key_exists($operation->operationId, OpenApiHandler::MAP)) {
             throw new Exception(
                 sprintf(
-                    'Operation not implemented, please add the operation and implementation to %s::MAP',
+                    'Operation %s not implemented, please add the operation and implementation to %s::MAP',
+                    $operation->operationId,
                     OpenApiHandler::class
                 )
             );
