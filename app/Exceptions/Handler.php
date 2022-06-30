@@ -2,7 +2,6 @@
 
 namespace App\Exceptions;
 
-use App\Modules\OpenApi\Errors\OpenApiError;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -33,23 +32,5 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->registerErrorHandlers();
-    }
-
-    private function registerErrorHandlers(): void
-    {
-        $this->handleOpenApiError();
-    }
-
-    private function handleOpenApiError(): void
-    {
-        $this->renderable(function (OpenApiError $e) {
-            $data = [
-                'message' => $e->getMessage(),
-                'errors' => $e->getErrors()
-            ];
-
-            return response()->json($data, $e->getCode());
-        });
     }
 }
