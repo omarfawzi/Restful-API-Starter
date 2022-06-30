@@ -2,7 +2,6 @@
 
 namespace App\Modules\User\Actions;
 
-use App\Modules\Api\Conditions\Condition;
 use App\Modules\Api\Handlers\RequestHandler;
 use App\Modules\OpenApi\Utilities\OpenApiResponse;
 use App\Modules\User\Conditions\UserDoesExist;
