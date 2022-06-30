@@ -15,17 +15,18 @@ use League\OpenAPIValidation\PSR7\Exception\NoPath;
 use League\OpenAPIValidation\PSR7\SpecFinder;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ServerRequestInterface;
-use Throwable;
 
 class OpenApiController
 {
-    public function __construct(private ServerRequestInterface $serverRequest, private OpenApiValidator $validator) {}
+    public function __construct(private ServerRequestInterface $serverRequest, private OpenApiValidator $validator)
+    {
+    }
 
     public function __invoke(Request $request): JsonResponse
     {
         $responseOrContext = $this->handleRequest();
 
-        if ($responseOrContext instanceof JsonResponse){
+        if ($responseOrContext instanceof JsonResponse) {
             return $responseOrContext;
         }
 
@@ -36,7 +37,6 @@ class OpenApiController
     {
         try {
             $response = $this->getRequestHandler($context)->__invoke($request);
-            $this->validator->validateResponse($context, $response);
         } catch (ApiError $e) {
             $data = array_filter([
                 'message' => $e->getMessage(),
@@ -44,13 +44,8 @@ class OpenApiController
             ]);
 
             $response = new Response($e->getCode(), ['Content-Type' => 'application/json'], json_encode($data));
+        } finally {
             $this->validator->validateResponse($context, $response);
-        } catch (Throwable $e) {
-            $response = new Response(
-                \Symfony\Component\HttpFoundation\Response::HTTP_INTERNAL_SERVER_ERROR,
-                ['Content-Type' => 'application/json'],
-                json_encode(['message' => 'Internal Error', 'errors' => [$e->getMessage()]])
-            );
         }
 
         return new JsonResponse(json_decode((string)$response->getBody(), true), $response->getStatusCode());
@@ -66,11 +61,6 @@ class OpenApiController
                 'errors' => $e->getErrors()
             ]);
             return new JsonResponse($data, $e->getCode());
-        } catch (Throwable $e) {
-            return new JsonResponse(
-                ['message' => 'Internal Error', 'errors' => [$e->getMessage()]],
-                \Symfony\Component\HttpFoundation\Response::HTTP_INTERNAL_SERVER_ERROR
-            );
         }
     }
 

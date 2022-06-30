@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -32,5 +33,23 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
+        $this->registerErrorHandlers();
+    }
+
+    private function registerErrorHandlers(): void
+    {
+        $this->handleInternalErrors();
+    }
+
+    private function handleInternalErrors(): void
+    {
+        $this->renderable(function (Throwable $e) {
+            $data = [
+                'message' => 'Internal Server Error',
+                'errors' => [$e->getMessage()]
+            ];
+
+            return response()->json($data, Response::HTTP_INTERNAL_SERVER_ERROR);
+        });
     }
 }
