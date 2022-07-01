@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class BaseRepository
 {
-    protected function filterPagination(Builder $query, Pagination $pagination): Builder
+    protected function paginate(Builder $query, Pagination $pagination): Builder
     {
         $cursor = $pagination->cursor ? base64_decode($pagination->cursor) : null;
 
