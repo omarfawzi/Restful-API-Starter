@@ -33,6 +33,10 @@ class OpenApiController
         return $this->handleResponse($request, $responseOrContext);
     }
 
+    /**
+     * @throws OpenApiError
+     * @throws NoPath
+     */
     private function handleResponse(Request $request, OpenApiContext $context): JsonResponse
     {
         try {
