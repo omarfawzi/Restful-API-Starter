@@ -80,7 +80,7 @@ jobs:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
           REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DB_CONNECTION: mysql
-          DB_DATABASE: testdatabase
+          DB_DATABASE: laravel
           DB_USER: root
           DB_PASSWORD: password
 
