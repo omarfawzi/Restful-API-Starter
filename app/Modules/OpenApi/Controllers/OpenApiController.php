@@ -4,9 +4,9 @@ namespace App\Modules\OpenApi\Controllers;
 
 use App\Modules\Api\Errors\ApiError;
 use App\Modules\Api\Handlers\RequestHandler;
+use App\Modules\Api\ApiHandler;
 use App\Modules\OpenApi\Contexts\OpenApiContext;
 use App\Modules\OpenApi\Errors\OpenApiError;
-use App\Modules\OpenApi\Handlers\OpenApiHandler;
 use App\Modules\OpenApi\Validator\OpenApiValidator;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -77,16 +77,16 @@ class OpenApiController
 
         $operation = $specFinder->findOperationSpec($context->operationAddress);
 
-        if (false === array_key_exists($operation->operationId, OpenApiHandler::MAP)) {
+        if (false === array_key_exists($operation->operationId, ApiHandler::MAP)) {
             throw new Exception(
                 sprintf(
                     'Operation %s not implemented, please add the operation and implementation to %s::MAP',
                     $operation->operationId,
-                    OpenApiHandler::class
+                    ApiHandler::class
                 )
             );
         }
 
-        return app(OpenApiHandler::MAP[$operation->operationId]);
+        return app(ApiHandler::MAP[$operation->operationId]);
     }
 }
