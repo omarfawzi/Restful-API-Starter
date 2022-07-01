@@ -36,6 +36,8 @@ jobs:
         mysql database: laravel
         mysql user: user
         mysql password: secret
+    - name: Wait for MySQL
+      run: sleep 15
     - name: Run Migrations
       run: php artisan migrate --force
       env:
