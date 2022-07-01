@@ -3,7 +3,7 @@
 namespace App\Modules\User\Actions;
 
 use App\Modules\Api\Handlers\RequestHandler;
-use App\Modules\OpenApi\Utilities\OpenApiResponse;
+use App\Modules\Api\Responses\ApiResponse;
 use App\Modules\User\Conditions\UserDoesExist;
 use App\Modules\User\Services\UserService;
 use App\Modules\User\Transformers\UserTransformer;
@@ -33,6 +33,6 @@ class GetUser extends RequestHandler
 
         $result = $this->transformer->transform($user, $userWith);
 
-        return OpenApiResponse::success($result);
+        return ApiResponse::success($result);
     }
 }

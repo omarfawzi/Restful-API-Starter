@@ -3,9 +3,9 @@
 namespace App\Modules\User\Actions;
 
 use App\Modules\Api\Handlers\RequestHandler;
+use App\Modules\Api\Responses\ApiResponse;
 use App\Modules\Api\Utilities\ApiFilter;
 use App\Modules\Api\Utilities\Pagination;
-use App\Modules\OpenApi\Utilities\OpenApiResponse;
 use App\Modules\User\Services\UserService;
 use App\Modules\User\Transformers\UserTransformer;
 use App\Modules\User\With\UserWith;
@@ -36,6 +36,6 @@ class GetUsers extends RequestHandler
 
         $result = $this->transformer->transformCollection($users, $pagination, $userWith);
 
-        return OpenApiResponse::success($result);
+        return ApiResponse::success($result);
     }
 }

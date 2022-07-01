@@ -3,8 +3,8 @@
 namespace App\Modules\User\Actions;
 
 use App\Modules\Api\Handlers\RequestHandler;
+use App\Modules\Api\Responses\ApiResponse;
 use App\Modules\Api\Utilities\ApiWith;
-use App\Modules\OpenApi\Utilities\OpenApiResponse;
 use App\Modules\User\Conditions\UserDoesExist;
 use App\Modules\User\Dto\UserDto;
 use App\Modules\User\Services\UserService;
@@ -35,6 +35,6 @@ class UpdateUser extends RequestHandler
 
         $result = $this->transformer->transform($user, ApiWith::createWithDefault());
 
-        return OpenApiResponse::success($result);
+        return ApiResponse::success($result);
     }
 }

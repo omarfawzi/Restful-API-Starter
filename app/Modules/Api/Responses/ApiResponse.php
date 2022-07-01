@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Modules\OpenApi\Utilities;
+namespace App\Modules\Api\Responses;
 
 use App\Modules\OpenApi\Errors\OpenApiError;
 use Nyholm\Psr7\Response;
 
-class OpenApiResponse
+class ApiResponse
 {
     /**
      * @throws OpenApiError

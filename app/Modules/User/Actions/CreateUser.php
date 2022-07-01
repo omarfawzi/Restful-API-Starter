@@ -3,7 +3,7 @@
 namespace App\Modules\User\Actions;
 
 use App\Modules\Api\Handlers\RequestHandler;
-use App\Modules\OpenApi\Utilities\OpenApiResponse;
+use App\Modules\Api\Responses\ApiResponse;
 use App\Modules\User\Conditions\HasEmail;
 use App\Modules\User\Conditions\HasPassword;
 use App\Modules\User\Conditions\UserDoesNotExist;
@@ -38,6 +38,6 @@ class CreateUser extends RequestHandler
 
         $result = $this->transformer->transform($user, UserWith::createWithDefault());
 
-        return OpenApiResponse::created($result);
+        return ApiResponse::created($result);
     }
 }
