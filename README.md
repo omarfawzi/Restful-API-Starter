@@ -15,7 +15,7 @@ Powered By
 
 # Specifications 
 
-Added under `storage/app/schema/openapi.yaml` ([Link](https://github.com/omarfawzi/Restful-API-Template/blob/main/storage/app/schema/openapi.yaml)).
+Added under `storage/app/schema/openapi.yaml` ([Live](https://omarfawzi.github.io/Restful-API-Starter/)).
 
 # Get Ready
 - `make rebuild` to rebuild and start services.
