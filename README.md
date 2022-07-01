@@ -6,7 +6,7 @@ Sometimes it's a hassle to come up with some good api design for your project th
 
 Please keep in mind that this is not the best design you can get but it's just a starter probably you will need to modify your template a little bit before integration it with real time business.
 
-Built on top of
+Powered By
 - PHP 8.1.4
 - MYSQL 8
 - Laravel 9
