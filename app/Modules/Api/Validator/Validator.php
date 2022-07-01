@@ -20,7 +20,7 @@ class Validator
         foreach ($conditions as $condition) {
             $error = $condition->validate($request);
 
-            throw_if($error instanceof ApiError, $error);
+            throw_if(is_a($error, ApiError::class), $error);
         }
     }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Modules\OpenApi\Controllers;
 
+use App\Modules\Api\ApiHandler;
 use App\Modules\Api\Errors\ApiError;
 use App\Modules\Api\Handlers\RequestHandler;
-use App\Modules\Api\ApiHandler;
 use App\Modules\Api\Responses\ApiResponse;
 use App\Modules\OpenApi\Contexts\OpenApiContext;
 use App\Modules\OpenApi\Errors\OpenApiError;
@@ -27,7 +27,7 @@ class OpenApiController
     {
         $responseOrContext = $this->handleRequest();
 
-        if ($responseOrContext instanceof JsonResponse) {
+        if (is_a($responseOrContext, JsonResponse::class)) {
             return $responseOrContext;
         }
 
