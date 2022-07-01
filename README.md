@@ -28,7 +28,7 @@ When your project specifications grows bigger having one yaml file to describe y
 
 # Flow Chart
 
-![Chart.drawio.png](https://github.com/omarfawzi/Restful-API-Design-Starter/blob/fd0a40678d90dd6f3f96eba4ffb10b7adc80ec86/Chart.png)
+![Chart.drawio.png](https://github.com/omarfawzi/Restful-API-Design-Starter/blob/main/Chart.png)
 
 # Contributions
 
