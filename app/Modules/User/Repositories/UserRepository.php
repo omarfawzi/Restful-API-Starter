@@ -2,13 +2,15 @@
 
 namespace App\Modules\User\Repositories;
 
+use App\Modules\Api\Repositories\BaseRepository;
 use App\Modules\Api\Utilities\ApiFilter;
 use App\Modules\Api\Utilities\Pagination;
 use App\Modules\User\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
-class UserRepository
+class UserRepository extends BaseRepository
 {
     public function create(string $name, string $email, string $password): User|Model
     {
@@ -26,25 +28,13 @@ class UserRepository
 
     public function get(Pagination $pagination, ApiFilter $filter): Collection
     {
-        $cursor = $pagination->cursor ? base64_decode($pagination->cursor) : null;
-
-        $query = User::query();
-
-        if (null !== $cursor){
-            $query->where($pagination->sortBy, $pagination->sortDir === 'asc' ? '>' : '<', $cursor);
-        }
-
-        if ($filter->has('name')) {
+        $query = User::query()->when($filter->has('name'), function (Builder $query) use ($filter){
             $query->whereIn('name', $filter->get('name'));
-        }
-
-        if ($filter->has('email')) {
+        })->when($filter->has('email'), function (Builder $query) use ($filter){
             $query->whereIn('email', $filter->get('email'));
-        }
+        });
 
-        return $query->limit($pagination->limit)
-            ->orderBy($pagination->sortBy, $pagination->sortDir)
-            ->get();
+        return $this->filterPagination($query, $pagination)->get();
     }
     
     public function findByEmail(string $email): ?User
