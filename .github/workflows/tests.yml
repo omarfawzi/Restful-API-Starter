@@ -36,7 +36,7 @@ jobs:
 #        mysql database: laravel
 #        mysql user: user
 #        mysql password: secret
-    - name: Run Migrations
-      run: php artisan migrate --force
+#    - name: Run Migrations
+#      run: php artisan migrate --force
     - name: Execute tests
       run: make test
