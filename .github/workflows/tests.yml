@@ -5,7 +5,7 @@ jobs:
     name: Laravel (PHP ${{ matrix.php-versions }})
     runs-on: ubuntu-latest
     env:
-      DB_HOST: mysql
+      DB_HOST: 127.0.0.1
       DB_DATABASE: laravel
       DB_USERNAME: root
       DB_PASSWORD: password
@@ -78,7 +78,7 @@ jobs:
       - name: Run Migration
         run: php artisan migrate -v
         env:
-          DB_HOST: mysql
+          DB_HOST: 127.0.0.1
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
           REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DB_CONNECTION: mysql
