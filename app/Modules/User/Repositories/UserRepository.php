@@ -34,7 +34,7 @@ class UserRepository extends BaseRepository
             $query->whereIn('email', $filter->get('email'));
         });
 
-        return $this->filterPagination($query, $pagination)->get();
+        return $this->paginate($query, $pagination)->get();
     }
 
     public function findByEmail(string $email): ?User
