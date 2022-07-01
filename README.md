@@ -1,6 +1,6 @@
 [![Testing](https://github.com/omarfawzi/Restful-API-Design-Starter/actions/workflows/tests.yml/badge.svg)](https://github.com/omarfawzi/Restful-API-Design-Starter/actions/workflows/tests.yml)
 
-# Restful API Design Starter
+# Restful API Starter
 
 Sometimes it's a hassle to come up with some good api design for your project therefore i designed this project, the project encourages the best practices of how your code modules and services looks like in order to make them less error prune and achieve high testability.  
 
