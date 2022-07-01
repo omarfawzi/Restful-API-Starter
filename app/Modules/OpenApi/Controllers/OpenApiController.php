@@ -5,6 +5,7 @@ namespace App\Modules\OpenApi\Controllers;
 use App\Modules\Api\Errors\ApiError;
 use App\Modules\Api\Handlers\RequestHandler;
 use App\Modules\Api\ApiHandler;
+use App\Modules\Api\Responses\ApiResponse;
 use App\Modules\OpenApi\Contexts\OpenApiContext;
 use App\Modules\OpenApi\Errors\OpenApiError;
 use App\Modules\OpenApi\Validator\OpenApiValidator;
@@ -47,7 +48,7 @@ class OpenApiController
                 'errors' => $e->getErrors()
             ]);
 
-            $response = new Response($e->getCode(), ['Content-Type' => 'application/json'], json_encode($data));
+            $response = new Response($e->getCode(), ApiResponse::RESPONSE_HEADERS, json_encode($data));
         } finally {
             $this->validator->validateResponse($context, $response);
         }

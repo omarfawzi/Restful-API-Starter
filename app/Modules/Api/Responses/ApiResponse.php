@@ -7,6 +7,8 @@ use Nyholm\Psr7\Response;
 
 class ApiResponse
 {
+    public const RESPONSE_HEADERS = ['Content-Type' => 'application/json'];
+
     /**
      * @throws OpenApiError
      */
@@ -36,6 +38,6 @@ class ApiResponse
      */
     private static function send(array $data, int $statusCode): Response
     {
-        return new Response($statusCode, ['Content-Type' => 'application/json'], json_encode($data));
+        return new Response($statusCode, self::RESPONSE_HEADERS, json_encode($data));
     }
 }
