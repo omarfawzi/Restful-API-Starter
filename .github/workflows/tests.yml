@@ -26,16 +26,8 @@ jobs:
       run: chmod -R 777 storage bootstrap/cache
     - name: Setup MySQL
       uses: mirromutth/mysql-action@v1.1
-      with:
-        host port: 3306
-        container port: 3306
-        character set server: utf8mb4
-        collation server: utf8mb4_general_ci
-        mysql version: latest
-        mysql root password: secret
-        mysql database: laravel
-        mysql user: user
-        mysql password: secret
+      env:
+        DB_HOST: 127.0.0.1
     - name: Wait for MySQL
       run: sleep 15
     - name: Run Migrations
