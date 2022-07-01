@@ -28,20 +28,20 @@ class UserRepository extends BaseRepository
 
     public function get(Pagination $pagination, ApiFilter $filter): Collection
     {
-        $query = User::query()->when($filter->has('name'), function (Builder $query) use ($filter){
+        $query = User::query()->when($filter->has('name'), function (Builder $query) use ($filter) {
             $query->whereIn('name', $filter->get('name'));
-        })->when($filter->has('email'), function (Builder $query) use ($filter){
+        })->when($filter->has('email'), function (Builder $query) use ($filter) {
             $query->whereIn('email', $filter->get('email'));
         });
 
         return $this->filterPagination($query, $pagination)->get();
     }
-    
+
     public function findByEmail(string $email): ?User
     {
         return User::query()->where('email', $email)->first();
     }
-    
+
     public function findById(int $id): ?User
     {
         return User::query()->where('id', $id)->first();
