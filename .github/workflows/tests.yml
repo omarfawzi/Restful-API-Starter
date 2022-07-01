@@ -30,6 +30,11 @@ jobs:
         mysql root password: secret
       env:
         DB_HOST: 127.0.0.1
+    - name: Wait for MySQL
+      run: |
+        while ! mysqladmin ping --host=127.0.0.1 --password=$MYSQL_ROOT_PASSWORD --silent; do
+          sleep 1
+        done
     - name: Run Migrations
       run: php artisan migrate --force
       env:
