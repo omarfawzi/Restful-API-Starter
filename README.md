@@ -2,7 +2,7 @@
 
 # Restful API Starter
 
-Sometimes it's a hassle to come up with some good api design for your project therefore i designed this project, the project encourages the best practices of how your code modules and services looks like in order to make them less error prune and achieve high testability.  
+Sometimes it's a hassle to come up with some good api design for your project therefore i designed this project, the project encourages the best practices of how your code modules and services should look like in order to make them less error prune, more consistent, less coupled and highly testable.
 
 Please keep in mind that this is not the best design you can get but it's just a starter probably you will need to modify your template a little bit before integration it with real time business.
 
