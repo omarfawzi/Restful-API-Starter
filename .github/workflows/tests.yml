@@ -26,10 +26,10 @@ jobs:
       run: chmod -R 777 storage bootstrap/cache
     - name: Setup MySQL
       uses: mirromutth/mysql-action@v1.1
+      with:
+        mysql root password: secret
       env:
         DB_HOST: 127.0.0.1
-    - name: Wait for MySQL
-      run: sleep 15
     - name: Run Migrations
       run: php artisan migrate --force
       env:
