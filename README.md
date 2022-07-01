@@ -28,7 +28,7 @@ Have a look over [Makefile](https://github.com/omarfawzi/Restful-API-Template/bl
 
 When your project specifications grows bigger having one yaml file to describe your specifications would become a pain in the **s therefore you can split the specifications into multiple yaml files, create a main yaml file, reference the other files in your specifications, build, validation and combine all of them into one file using a package like [Swagger Cli](https://www.npmjs.com/package/swagger-cli).
 
-# Flow Chart
+# Request Life Cycle
 
 ![Chart.drawio.png](https://github.com/omarfawzi/Restful-API-Design-Starter/blob/main/Chart.png)
 
