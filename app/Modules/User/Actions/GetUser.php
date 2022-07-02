@@ -2,7 +2,7 @@
 
 namespace App\Modules\User\Actions;
 
-use App\Modules\Api\Handlers\RequestHandler;
+use App\Modules\Api\Handlers\ApiRequestHandler;
 use App\Modules\Api\Responses\ApiResponse;
 use App\Modules\User\Conditions\UserDoesExist;
 use App\Modules\User\Services\UserService;
@@ -11,7 +11,7 @@ use App\Modules\User\With\UserWith;
 use Illuminate\Http\Request;
 use Nyholm\Psr7\Response;
 
-class GetUser extends RequestHandler
+class GetUser extends ApiRequestHandler
 {
     public function __construct(
         private UserTransformer $transformer,

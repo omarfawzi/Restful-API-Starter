@@ -2,12 +2,12 @@
 
 namespace App\Modules\OpenApi\Controllers;
 
-use App\Modules\Api\ApiHandler;
 use App\Modules\Api\Errors\ApiError;
-use App\Modules\Api\Handlers\RequestHandler;
 use App\Modules\Api\Responses\ApiResponse;
 use App\Modules\OpenApi\Contexts\OpenApiContext;
 use App\Modules\OpenApi\Errors\OpenApiError;
+use App\Modules\OpenApi\Factories\RequestHandlerFactory;
+use App\Modules\OpenApi\Handlers\RequestHandler;
 use App\Modules\OpenApi\Validator\OpenApiValidator;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -19,8 +19,11 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class OpenApiController
 {
-    public function __construct(private ServerRequestInterface $serverRequest, private OpenApiValidator $validator)
-    {
+    public function __construct(
+        private ServerRequestInterface $serverRequest,
+        private OpenApiValidator $validator,
+        private RequestHandlerFactory $factory
+    ) {
     }
 
     public function __invoke(Request $request): JsonResponse
@@ -41,7 +44,7 @@ class OpenApiController
     private function handleResponse(Request $request, OpenApiContext $context): JsonResponse
     {
         try {
-            $response = $this->getRequestHandler($context)->__invoke($request);
+            $response = $this->getRequestHandler($request, $context)->__invoke($request);
         } catch (ApiError $e) {
             $data = array_filter([
                 'message' => $e->getMessage(),
@@ -71,23 +74,16 @@ class OpenApiController
 
     /**
      * @throws NoPath
+     * @throws Exception
      */
-    private function getRequestHandler(OpenApiContext $context): RequestHandler
+    private function getRequestHandler(Request $request, OpenApiContext $context): RequestHandler
     {
         $specFinder = new SpecFinder($context->openApi);
 
         $operation = $specFinder->findOperationSpec($context->operationAddress);
 
-        if (false === array_key_exists($operation->operationId, ApiHandler::MAP)) {
-            throw new Exception(
-                sprintf(
-                    'Operation %s not implemented, please add the operation and implementation to %s::MAP',
-                    $operation->operationId,
-                    ApiHandler::class
-                )
-            );
-        }
+        $pathParams = $context->operationAddress->parseParams($request->path());
 
-        return app(ApiHandler::MAP[$operation->operationId]);
+        return $this->factory->make($operation, $pathParams);
     }
 }

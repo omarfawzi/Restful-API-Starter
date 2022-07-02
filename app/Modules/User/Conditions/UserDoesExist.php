@@ -17,7 +17,7 @@ class UserDoesExist implements Condition
         $user = app(UserResolver::class)->resolveById($this->userId);
 
         if (null == $user) {
-            return new ApiError('User do not exist', ['id' => 'User does not exist for such id'], Response::HTTP_NOT_FOUND);
+            return new ApiError('User do not exist', ['id' => "User does not exist for id : $this->userId"], Response::HTTP_NOT_FOUND);
         }
 
         return null;

@@ -2,7 +2,7 @@
 
 namespace App\Modules\User\Actions;
 
-use App\Modules\Api\Handlers\RequestHandler;
+use App\Modules\Api\Handlers\ApiRequestHandler;
 use App\Modules\Api\Responses\ApiResponse;
 use App\Modules\Api\Utilities\ApiFilter;
 use App\Modules\Api\Utilities\Pagination;
@@ -12,7 +12,7 @@ use App\Modules\User\With\UserWith;
 use Illuminate\Http\Request;
 use Nyholm\Psr7\Response;
 
-class GetUsers extends RequestHandler
+class GetUsers extends ApiRequestHandler
 {
     public function __construct(
         private UserTransformer $transformer,
