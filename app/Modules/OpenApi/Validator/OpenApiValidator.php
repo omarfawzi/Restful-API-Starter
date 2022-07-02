@@ -4,10 +4,10 @@ namespace App\Modules\OpenApi\Validator;
 
 use App\Modules\OpenApi\Contexts\OpenApiContext;
 use App\Modules\OpenApi\Errors\OpenApiError;
+use Cache\Adapter\PHPArray\ArrayCachePool;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use League\OpenAPIValidation\PSR7\Exception\ValidationFailed;
-use League\OpenAPIValidation\PSR7\OperationAddress;
 use League\OpenAPIValidation\PSR7\ValidatorBuilder;
 use League\OpenAPIValidation\Schema\Exception\SchemaMismatch;
 use Psr\Http\Message\ResponseInterface;
@@ -15,6 +15,16 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class OpenApiValidator
 {
+    private const CACHE_KEY = 'open-api';
+
+    private ArrayCachePool $cachePool;
+
+    private array $cache = [];
+
+    public function __construct() {
+        $this->cachePool = new ArrayCachePool(null, $this->cache);
+    }
+
     /**
      * @param ServerRequestInterface $serverRequest
      * @return OpenApiContext
@@ -24,7 +34,11 @@ class OpenApiValidator
     {
         $schema = $this->getOpenApiSchema();
 
-        $validator = (new ValidatorBuilder())->fromYaml($schema)->getServerRequestValidator();
+        $validator = (new ValidatorBuilder())
+            ->fromYaml($schema)
+            ->setCache($this->cachePool)
+            ->overrideCacheKey(self::CACHE_KEY)
+            ->getServerRequestValidator();
 
         try {
             $address = $validator->validate($serverRequest);
@@ -42,7 +56,11 @@ class OpenApiValidator
      */
     public function validateResponse(OpenApiContext $context, ResponseInterface $response): void
     {
-        $validator = (new ValidatorBuilder())->fromSchema($context->openApi)->getResponseValidator();
+        $validator = (new ValidatorBuilder())
+            ->fromSchema($context->openApi)
+            ->setCache($this->cachePool)
+            ->overrideCacheKey(self::CACHE_KEY)
+            ->getResponseValidator();
 
         try {
             $validator->validate($context->operationAddress, $response);

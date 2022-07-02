@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use App\Modules\User\Resolver\UserResolver;
+use App\Modules\OpenApi\Validator\OpenApiValidator;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
-class OpenApiProvider extends ServiceProvider
+class OpenApiServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
@@ -14,11 +14,6 @@ class OpenApiProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->registerResolvers();
-    }
-
-    private function registerResolvers(): void
-    {
-        $this->app->singleton(UserResolver::class);
+        $this->app->singleton(OpenApiValidator::class);
     }
 }
