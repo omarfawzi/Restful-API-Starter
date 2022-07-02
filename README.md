@@ -11,7 +11,8 @@ Powered By
 - PHP 8.1.4
 - MYSQL 8
 - Laravel 9
-- Open API (3.0.2) + [OpenAPI PSR-7 Message (HTTP Request/Response) Validator](https://github.com/thephpleague/openapi-psr7-validator)
+- Open API (3.0.2)
+- [OpenAPI PSR-7 Message (HTTP Request/Response) Validator](https://github.com/thephpleague/openapi-psr7-validator)
 - Docker
 
 No need for custom code schema validation, the validation is done based on the definition added on the open api schema for each operation, all you need to care about is only your business logic and ofcourse the validation of that logic only. 
