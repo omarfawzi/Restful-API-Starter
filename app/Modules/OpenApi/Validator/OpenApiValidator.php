@@ -6,7 +6,6 @@ use App\Modules\OpenApi\Contexts\OpenApiContext;
 use App\Modules\OpenApi\Errors\OpenApiError;
 use App\Modules\OpenApi\Factories\OpenApiErrorFactory;
 use Cache\Adapter\PHPArray\ArrayCachePool;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use League\OpenAPIValidation\PSR7\Exception\ValidationFailed;
 use League\OpenAPIValidation\PSR7\ValidatorBuilder;
@@ -21,7 +20,8 @@ class OpenApiValidator
 
     private array $cache = [];
 
-    public function __construct(private OpenApiErrorFactory $openApiErrorFactory) {
+    public function __construct(private OpenApiErrorFactory $openApiErrorFactory)
+    {
         $this->cachePool = new ArrayCachePool(null, $this->cache);
     }
 
@@ -50,7 +50,7 @@ class OpenApiValidator
     }
 
     /**
-     * @param Request $request
+     * @param OpenApiContext $context
      * @param ResponseInterface $response
      * @throws OpenApiError
      */
