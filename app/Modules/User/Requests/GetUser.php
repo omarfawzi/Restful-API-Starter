@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\User\Actions;
+namespace App\Modules\User\Requests;
 
 use App\Modules\Api\Handlers\ApiRequestHandler;
 use App\Modules\Api\Responses\ApiResponse;

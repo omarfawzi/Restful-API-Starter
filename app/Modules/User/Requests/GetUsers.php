@@ -1,39 +1,40 @@
 <?php
 
-namespace App\Modules\User\Actions;
+namespace App\Modules\User\Requests;
 
 use App\Modules\Api\Handlers\ApiRequestHandler;
 use App\Modules\Api\Responses\ApiResponse;
-use App\Modules\Api\Utilities\ApiWith;
-use App\Modules\User\Conditions\UserDoesExist;
-use App\Modules\User\Dto\UserDto;
+use App\Modules\Api\Utilities\ApiFilter;
+use App\Modules\Api\Utilities\Pagination;
 use App\Modules\User\Services\UserService;
 use App\Modules\User\Transformers\UserTransformer;
+use App\Modules\User\With\UserWith;
 use Illuminate\Http\Request;
 use Nyholm\Psr7\Response;
 
-class UpdateUser extends ApiRequestHandler
+class GetUsers extends ApiRequestHandler
 {
     public function __construct(
         private UserTransformer $transformer,
         private UserService $service
-    ) {
-    }
+    ) {}
 
     public function getConditions(): array
     {
-        return [
-            new UserDoesExist($this->getPathParameterAsInteger('id'))
-        ];
+        return [];
     }
 
     public function processRequest(Request $request): Response
     {
-        $userDto = UserDto::fromRequest($request);
+        $pagination = Pagination::fromRequest($request);
 
-        $user = $this->service->update($this->getPathParameterAsInteger('id'), $userDto);
+        $apiFilter = ApiFilter::fromRequest($request);
 
-        $result = $this->transformer->transform($user, ApiWith::createWithDefault());
+        $userWith = UserWith::fromRequest($request);
+
+        $users = $this->service->list($pagination, $apiFilter);
+
+        $result = $this->transformer->transformCollection($users, $pagination, $userWith);
 
         return ApiResponse::success($result);
     }

@@ -2,10 +2,10 @@
 
 namespace App\Modules\Api;
 
-use App\Modules\User\Actions\CreateUser;
-use App\Modules\User\Actions\GetUser;
-use App\Modules\User\Actions\GetUsers;
-use App\Modules\User\Actions\UpdateUser;
+use App\Modules\User\Requests\CreateUser;
+use App\Modules\User\Requests\GetUser;
+use App\Modules\User\Requests\GetUsers;
+use App\Modules\User\Requests\UpdateUser;
 
 final class ApiHandler {
     public const MAP = [
