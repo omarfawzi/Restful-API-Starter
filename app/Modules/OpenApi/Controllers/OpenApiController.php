@@ -10,7 +10,6 @@ use App\Modules\OpenApi\Factories\RequestHandlerFactory;
 use App\Modules\OpenApi\Validator\OpenApiValidator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use League\OpenAPIValidation\PSR7\Exception\NoPath;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -25,7 +24,7 @@ class OpenApiController
 
     public function __invoke(Request $request): JsonResponse
     {
-        $responseOrContext = $this->handleRequest();
+        $responseOrContext = $this->handleServerRequest($this->serverRequest);
 
         if (is_a($responseOrContext, JsonResponse::class)) {
             return $responseOrContext;
@@ -58,10 +57,10 @@ class OpenApiController
         return new JsonResponse(json_decode((string)$response->getBody(), true), $response->getStatusCode());
     }
 
-    private function handleRequest(): OpenApiContext|JsonResponse
+    private function handleServerRequest(ServerRequestInterface $serverRequest): OpenApiContext|JsonResponse
     {
         try {
-            return $this->validator->validateRequest($this->serverRequest);
+            return $this->validator->validateRequest($serverRequest);
         } catch (OpenApiError $e) {
             $data = array_filter([
                 'message' => $e->getMessage(),
