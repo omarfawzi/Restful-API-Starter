@@ -4,12 +4,12 @@ namespace App\Modules\OpenApi\Validator;
 
 use App\Modules\OpenApi\Contexts\OpenApiContext;
 use App\Modules\OpenApi\Errors\OpenApiError;
+use App\Modules\OpenApi\Factories\OpenApiErrorFactory;
 use Cache\Adapter\PHPArray\ArrayCachePool;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use League\OpenAPIValidation\PSR7\Exception\ValidationFailed;
 use League\OpenAPIValidation\PSR7\ValidatorBuilder;
-use League\OpenAPIValidation\Schema\Exception\SchemaMismatch;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -21,7 +21,7 @@ class OpenApiValidator
 
     private array $cache = [];
 
-    public function __construct() {
+    public function __construct(private OpenApiErrorFactory $openApiErrorFactory) {
         $this->cachePool = new ArrayCachePool(null, $this->cache);
     }
 
@@ -43,7 +43,7 @@ class OpenApiValidator
         try {
             $address = $validator->validate($serverRequest);
         } catch (ValidationFailed $e) {
-            throw $this->toOpenApiError($e);
+            throw $this->openApiErrorFactory->make($e);
         }
 
         return new OpenApiContext($validator->getSchema(), $address);
@@ -65,33 +65,8 @@ class OpenApiValidator
         try {
             $validator->validate($context->operationAddress, $response);
         } catch (ValidationFailed $e) {
-            throw $this->toOpenApiError($e);
+            throw $this->openApiErrorFactory->make($e);
         }
-    }
-
-    private function toOpenApiError(ValidationFailed $exception): OpenApiError
-    {
-        $previous = $exception->getPrevious();
-
-        if ($previous === null) {
-            return new OpenApiError($exception->getMessage());
-        }
-
-        if ($previous instanceof SchemaMismatch) {
-            if ($previous->dataBreadCrumb() === null) {
-                return new OpenApiError($exception->getMessage());
-            }
-
-            $field = implode('.', $previous->dataBreadCrumb()->buildChain());
-
-            if ($field === '') {
-                $field = 'payload';
-            }
-
-            return new OpenApiError($exception->getMessage(), [$field => $previous->getMessage()]);
-        }
-
-        return new OpenApiError($previous->getMessage());
     }
 
     private function getOpenApiSchema(): string
