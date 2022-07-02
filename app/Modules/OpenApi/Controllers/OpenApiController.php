@@ -7,13 +7,10 @@ use App\Modules\Api\Responses\ApiResponse;
 use App\Modules\OpenApi\Contexts\OpenApiContext;
 use App\Modules\OpenApi\Errors\OpenApiError;
 use App\Modules\OpenApi\Factories\RequestHandlerFactory;
-use App\Modules\OpenApi\Handlers\RequestHandler;
 use App\Modules\OpenApi\Validator\OpenApiValidator;
-use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use League\OpenAPIValidation\PSR7\Exception\NoPath;
-use League\OpenAPIValidation\PSR7\SpecFinder;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -38,13 +35,15 @@ class OpenApiController
     }
 
     /**
+     * @param Request $request
+     * @param OpenApiContext $context
+     * @return JsonResponse
      * @throws OpenApiError
-     * @throws NoPath
      */
     private function handleResponse(Request $request, OpenApiContext $context): JsonResponse
     {
         try {
-            $response = $this->getRequestHandler($request, $context)->__invoke($request);
+            $response = $this->factory->make($context, $request)->__invoke($request);
         } catch (ApiError $e) {
             $data = array_filter([
                 'message' => $e->getMessage(),
@@ -70,20 +69,5 @@ class OpenApiController
             ]);
             return new JsonResponse($data, $e->getCode());
         }
-    }
-
-    /**
-     * @throws NoPath
-     * @throws Exception
-     */
-    private function getRequestHandler(Request $request, OpenApiContext $context): RequestHandler
-    {
-        $specFinder = new SpecFinder($context->openApi);
-
-        $operation = $specFinder->findOperationSpec($context->operationAddress);
-
-        $pathParams = $context->operationAddress->parseParams($request->path());
-
-        return $this->factory->make($operation, $pathParams);
     }
 }
