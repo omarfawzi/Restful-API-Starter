@@ -23,8 +23,9 @@ Added under `storage/app/schema` ([Live](https://omarfawzi.github.io/Restful-API
 
 # Get Ready
 - `make rebuild` to rebuild and start services.
-- `make swagger-ui` to see your open api specs over [localhost](http://localhost:8081).
+- Add your new endpoints (under app/Modules) and open api specifications (under storage/app/schema).
 - `make bundle` to combine and validate your specs.
+- `make swagger-ui` to host your open api specs locally [localhost](http://localhost:8081).
 - `make test` to start running tests.
 
 Have a look over [Makefile](https://github.com/omarfawzi/Restful-API-Template/blob/main/Makefile) for more options.
