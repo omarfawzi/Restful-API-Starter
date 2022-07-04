@@ -32,7 +32,7 @@ class CreateUser extends ApiRequestHandler
 
     public function processRequest(Request $request): Response
     {
-        $userDto = UserDto::fromRequest($request);
+        $userDto = UserDto::from($request);
 
         $user = $this->service->create($userDto);
 

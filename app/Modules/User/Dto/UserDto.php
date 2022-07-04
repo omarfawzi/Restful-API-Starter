@@ -2,13 +2,13 @@
 
 namespace App\Modules\User\Dto;
 
-use App\Modules\Api\Dto\ApiDto;
+use Spatie\LaravelData\Data;
 
-class UserDto extends ApiDto
+class UserDto extends Data
 {
     public string $name;
 
-    public ?string $password = null;
+    public ?string $password;
 
-    public ?string $email = null;
+    public ?string $email;
 }
