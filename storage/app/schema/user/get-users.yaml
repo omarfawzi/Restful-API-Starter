@@ -1,0 +1,39 @@
+tags:
+  - Users
+summary: List users
+operationId: getUsers
+parameters:
+  - name: filter[name]
+    in: query
+    description: filter by name
+    required: false
+    schema:
+      type: array
+      items:
+        type: string
+    explode: false
+  - name: filter[email]
+    in: query
+    description: filter by email
+    required: false
+    schema:
+      type: array
+      items:
+        type: string
+    explode: false
+  - $ref: '../openapi.yaml#/components/parameters/Limit'
+  - $ref: '../openapi.yaml#/components/parameters/SortBy'
+  - $ref: '../openapi.yaml#/components/parameters/SortDir'
+  - $ref: '../openapi.yaml#/components/parameters/Cursor'
+  - $ref: '../openapi.yaml#/components/parameters/With'
+responses:
+  200:
+    description: User collection resource
+    content:
+      application/json:
+        schema:
+          $ref: './schemas.yaml#/UserCollection'
+  400:
+    $ref: '../openapi.yaml#/components/responses/BadRequestError'
+  401:
+    $ref: '../openapi.yaml#/components/responses/UnauthorizedError'

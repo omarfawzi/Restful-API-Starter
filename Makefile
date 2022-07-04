@@ -36,8 +36,8 @@ swagger-ui:
 		--platform linux/amd64 \
 		--name swagger-ui \
 		-p 8081:8080 \
-		-v `pwd`/storage/app/schema:/mnt \
-		-e SWAGGER_JSON=/mnt/openapi.yaml \
+		-v `pwd`/storage/app/schema/build:/mnt \
+		-e SWAGGER_JSON=/mnt/openapi.json \
 		swaggerapi/swagger-ui
 
 stop-swagger-ui:
@@ -45,3 +45,11 @@ stop-swagger-ui:
 
 test:
 	@docker-compose run --rm app bash -c "./artisan test; exit $?"
+
+validate:
+	npx swagger-cli validate storage/app/schema/openapi.yaml
+
+bundle: validate
+	mkdir -p storage/app/schema/build
+
+	npx swagger-cli bundle --dereference storage/app/schema/openapi.yaml -o storage/app/schema/build/openapi.json

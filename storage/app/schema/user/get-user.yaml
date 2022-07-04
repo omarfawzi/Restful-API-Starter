@@ -1,0 +1,22 @@
+tags:
+  - Users
+summary: Get user
+operationId: getUser
+parameters:
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: integer
+  - $ref: '../openapi.yaml#/components/parameters/With'
+responses:
+  200:
+    description: User resource
+    content:
+      application/json:
+        schema:
+          $ref: './schemas.yaml#/User'
+  404:
+    $ref: '../openapi.yaml#/components/responses/NotFoundError'
+  401:
+    $ref: '../openapi.yaml#/components/responses/UnauthorizedError'

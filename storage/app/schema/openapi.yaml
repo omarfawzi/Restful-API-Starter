@@ -16,109 +16,26 @@ servers:
         enum:
           - v1
 security:
-  - Token: []
+  - bearerAuth: []
+tags:
+  - name: Users
+    description: Application users
 paths:
   '/users':
     post:
-      tags:
-        - Users
-      summary: Create new user
-      operationId: createUser
-      security: []
-      requestBody:
-        $ref: '#/components/requestBodies/User'
-      responses:
-        201:
-          $ref: '#/components/responses/User'
-        400:
-          $ref: '#/components/responses/BadRequestError'
-        401:
-          $ref: '#/components/responses/UnauthorizedError'
+      $ref: 'user/create-user.yaml'
     get:
-      tags:
-        - Users
-      summary: List users
-      operationId: getUsers
-      parameters:
-        - name: filter[name]
-          in: query
-          description: filter by name
-          required: false
-          schema:
-            type: array
-            items:
-              type: string
-          explode: false
-        - name: filter[email]
-          in: query
-          description: filter by email
-          required: false
-          schema:
-            type: array
-            items:
-              type: string
-          explode: false
-        - $ref: '#/components/parameters/Limit'
-        - $ref: '#/components/parameters/SortBy'
-        - $ref: '#/components/parameters/SortDir'
-        - $ref: '#/components/parameters/Cursor'
-        - $ref: '#/components/parameters/With'
-      responses:
-        200:
-          $ref: '#/components/responses/UserCollection'
-        400:
-          $ref: '#/components/responses/BadRequestError'
-        401:
-          $ref: '#/components/responses/UnauthorizedError'
+      $ref: 'user/get-users.yaml'
   '/users/{id}':
     get:
-      tags:
-        - Users
-      summary: Get user
-      operationId: getUser
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-        - $ref: '#/components/parameters/With'
-      responses:
-        200:
-          $ref: '#/components/responses/User'
-        404:
-          $ref: '#/components/responses/NotFoundError'
-        401:
-          $ref: '#/components/responses/UnauthorizedError'
+      $ref: 'user/get-user.yaml'
     patch:
-      tags:
-        - Users
-      summary: Update existing user
-      operationId: updateUser
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        $ref: '#/components/requestBodies/User'
-      responses:
-        200:
-          $ref: '#/components/responses/User'
-        400:
-          $ref: '#/components/responses/BadRequestError'
-        404:
-          $ref: '#/components/responses/NotFoundError'
-        401:
-          $ref: '#/components/responses/UnauthorizedError'
+      $ref: 'user/update-user.yaml'
 components:
   securitySchemes:
-    Token:
+    bearerAuth:
       type: http
       scheme: bearer
-      description: Bearer token required for authentication
-      in: headers
   headers:
     Content-Type:
       description: Content Type of the resource
@@ -126,29 +43,7 @@ components:
         type: string
         enum:
           - application/json
-  requestBodies:
-    User:
-      description: User resource
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/UserRequest'
   responses:
-    User:
-      description: User resource
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/User'
-    UserCollection:
-      description: User collection resource
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/UserCollection'
-      headers:
-        Content-Type:
-          $ref: '#/components/headers/Content-Type'
     UnauthorizedError:
       description: Unauthorized Error
       content:
@@ -213,49 +108,6 @@ components:
       schema:
         $ref: '#/components/schemas/Cursor'
   schemas:
-    User:
-      type: object
-      required:
-        - id
-        - name
-        - email
-      properties:
-        id:
-          type: integer
-          minimum: 1
-          readOnly: true
-        name:
-          type: string
-          minLength: 3
-        email:
-          format: email
-          type: string
-        token:
-          type: string
-          nullable: true
-    UserCollection:
-      type: object
-      properties:
-        entities:
-          type: array
-          items:
-            $ref: '#/components/schemas/User'
-        cursor:
-          $ref: '#/components/schemas/Cursor'
-    UserRequest:
-      type: object
-      properties:
-        name:
-          type: string
-          minLength: 3
-        email:
-          format: email
-          type: string
-        password:
-          format: password
-          type: string
-          pattern: '[A-Z]{2}[0-9]{4}'
-      minProperties: 1
     Error:
       type: object
       properties:
@@ -274,10 +126,7 @@ components:
       properties:
         message:
           type: string
-          example: Access token is missing or invalid.
+          example: Bearer token is missing or invalid.
     Cursor:
       type: string
       nullable: true
-tags:
-  - name: Users
-    description: Application users

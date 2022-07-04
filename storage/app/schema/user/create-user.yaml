@@ -1,0 +1,23 @@
+tags:
+  - Users
+summary: Create new user
+operationId: createUser
+security: [ ]
+requestBody:
+  required: true
+  description: User resource
+  content:
+    application/json:
+      schema:
+        $ref: './schemas.yaml#/UserRequest'
+responses:
+  201:
+    description: User resource
+    content:
+      application/json:
+        schema:
+          $ref: './schemas.yaml#/User'
+  400:
+    $ref: '../openapi.yaml#/components/responses/BadRequestError'
+  401:
+    $ref: '../openapi.yaml#/components/responses/UnauthorizedError'

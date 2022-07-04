@@ -1,0 +1,43 @@
+User:
+  type: object
+  required:
+    - id
+    - name
+    - email
+  properties:
+    id:
+      type: integer
+      minimum: 1
+      readOnly: true
+    name:
+      type: string
+      minLength: 3
+    email:
+      format: email
+      type: string
+    token:
+      type: string
+      nullable: true
+UserCollection:
+  type: object
+  properties:
+    entities:
+      type: array
+      items:
+        $ref: '#/User'
+    cursor:
+      $ref: '../openapi.yaml#/components/schemas/Cursor'
+UserRequest:
+  type: object
+  properties:
+    name:
+      type: string
+      minLength: 3
+    email:
+      format: email
+      type: string
+    password:
+      format: password
+      type: string
+      pattern: '[A-Z]{2}[0-9]{4}'
+  minProperties: 1

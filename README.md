@@ -24,13 +24,10 @@ Added under `storage/app/schema/openapi.yaml` ([Live](https://omarfawzi.github.i
 # Get Ready
 - `make rebuild` to rebuild and start services.
 - `make swagger-ui` to see your open api specs over [localhost](http://localhost:8081).
+- `make bundle` to combine and validate your specs.
 - `make test` to start running tests.
 
 Have a look over [Makefile](https://github.com/omarfawzi/Restful-API-Template/blob/main/Makefile) for more options.
-
-# Improvements
-
-When your project specifications grows bigger having one yaml file to describe your specifications would become a pain in the **s therefore you can split the specifications into multiple yaml files, create a main yaml file, reference the other files in your specifications, build, validation and combine all of them into one file using a package like [Swagger Cli](https://www.npmjs.com/package/swagger-cli).
 
 # Request Life Cycle
 

@@ -196,5 +196,5 @@ return [
         // ...
     ])->toArray(),
 
-    'open_api_file_path' => 'schema/openapi.yaml',
+    'open_api_file_path' => 'schema/build/openapi.json',
 ];

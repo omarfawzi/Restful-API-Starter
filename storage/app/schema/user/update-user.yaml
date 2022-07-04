@@ -1,0 +1,30 @@
+tags:
+  - Users
+summary: Update existing user
+operationId: updateUser
+parameters:
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: integer
+requestBody:
+  required: true
+  description: User resource
+  content:
+    application/json:
+      schema:
+        $ref: './schemas.yaml#/UserRequest'
+responses:
+  200:
+    description: User resource
+    content:
+      application/json:
+        schema:
+          $ref: './schemas.yaml#/User'
+  400:
+    $ref: '../openapi.yaml#/components/responses/BadRequestError'
+  404:
+    $ref: '../openapi.yaml#/components/responses/NotFoundError'
+  401:
+    $ref: '../openapi.yaml#/components/responses/UnauthorizedError'

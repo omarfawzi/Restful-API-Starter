@@ -35,7 +35,7 @@ class OpenApiValidator
         $schema = $this->getOpenApiSchema();
 
         $validator = (new ValidatorBuilder())
-            ->fromYaml($schema)
+            ->fromJson($schema)
             ->setCache($this->cachePool)
             ->overrideCacheKey(self::CACHE_KEY)
             ->getServerRequestValidator();
