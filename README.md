@@ -19,7 +19,7 @@ No need for custom code schema validation, the validation is done based on the d
 
 # Specifications 
 
-Added under `storage/app/schema/openapi.yaml` ([Live](https://omarfawzi.github.io/Restful-API-Starter/)).
+Added under `storage/app/schema` ([Live](https://omarfawzi.github.io/Restful-API-Starter/)).
 
 # Get Ready
 - `make rebuild` to rebuild and start services.
