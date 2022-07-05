@@ -2,8 +2,8 @@ name: Testing
 on: [push, pull_request]
 jobs:
   markdown-readme:
-    name: Dynamic Readme
-    uses: varunsridharan/action-dynamic-readme@1.2
+    - name: Dynamic Readme
+      uses: varunsridharan/action-dynamic-readme@1.2
   run-tests:
     name: Laravel (PHP ${{ matrix.php-versions }})
     runs-on: ubuntu-latest
