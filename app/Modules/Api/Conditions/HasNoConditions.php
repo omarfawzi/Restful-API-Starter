@@ -2,7 +2,7 @@
 
 namespace App\Modules\Api\Conditions;
 
-trait NoConditionsTrait
+trait HasNoConditions
 {
     public function getConditions(): array
     {

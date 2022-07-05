@@ -2,7 +2,7 @@
 
 namespace App\Modules\User\Requests;
 
-use App\Modules\Api\Conditions\NoConditionsTrait;
+use App\Modules\Api\Conditions\HasNoConditions;
 use App\Modules\Api\Handlers\ApiRequestHandler;
 use App\Modules\Api\Helpers\ApiWith;
 use App\Modules\Api\Responses\ApiResponse;
@@ -15,7 +15,7 @@ use Nyholm\Psr7\Response;
 
 class GetUsers extends ApiRequestHandler
 {
-    use NoConditionsTrait;
+    use HasNoConditions;
 
     public function __construct(
         private UserTransformer $transformer,
