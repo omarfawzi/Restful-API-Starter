@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Api\Utilities;
+namespace App\Modules\Api\Helpers;
 
 use Illuminate\Http\Request;
 

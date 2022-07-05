@@ -2,8 +2,8 @@
 
 namespace App\Modules\Api\Transformers;
 
-use App\Modules\Api\Utilities\ApiWith;
-use App\Modules\Api\Utilities\Pagination;
+use App\Modules\Api\Helpers\ApiWith;
+use App\Modules\Api\Helpers\Pagination;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 

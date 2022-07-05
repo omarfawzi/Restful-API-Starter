@@ -2,8 +2,8 @@
 
 namespace App\Modules\User\Services;
 
-use App\Modules\Api\Utilities\ApiFilter;
-use App\Modules\Api\Utilities\Pagination;
+use App\Modules\Api\Helpers\ApiFilter;
+use App\Modules\Api\Helpers\Pagination;
 use App\Modules\User\Models\User;
 use App\Modules\User\Repositories\UserRepository;
 use App\Modules\User\Dto\UserDto;

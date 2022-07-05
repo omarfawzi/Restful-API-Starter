@@ -4,12 +4,12 @@ namespace App\Modules\User\Requests;
 
 use App\Modules\Api\Conditions\NoConditionsTrait;
 use App\Modules\Api\Handlers\ApiRequestHandler;
+use App\Modules\Api\Helpers\ApiWith;
 use App\Modules\Api\Responses\ApiResponse;
-use App\Modules\Api\Utilities\ApiFilter;
-use App\Modules\Api\Utilities\Pagination;
+use App\Modules\Api\Helpers\ApiFilter;
+use App\Modules\Api\Helpers\Pagination;
 use App\Modules\User\Services\UserService;
 use App\Modules\User\Transformers\UserTransformer;
-use App\Modules\User\With\UserWith;
 use Illuminate\Http\Request;
 use Nyholm\Psr7\Response;
 
@@ -24,15 +24,15 @@ class GetUsers extends ApiRequestHandler
 
     public function processRequest(Request $request): Response
     {
-        $pagination = Pagination::fromRequest($request);
+        $pagination = Pagination::from($request);
 
-        $apiFilter = ApiFilter::fromRequest($request);
+        $apiFilter = ApiFilter::from($request);
 
-        $userWith = UserWith::fromRequest($request);
+        $apiWith = ApiWith::from($request);
 
         $users = $this->service->list($pagination, $apiFilter);
 
-        $result = $this->transformer->transformCollection($users, $pagination, $userWith);
+        $result = $this->transformer->transformCollection($users, $pagination, $apiWith);
 
         return ApiResponse::success($result);
     }

@@ -2,7 +2,7 @@
 
 namespace App\Modules\Api\Repositories;
 
-use App\Modules\Api\Utilities\Pagination;
+use App\Modules\Api\Helpers\Pagination;
 use Illuminate\Database\Eloquent\Builder;
 
 class BaseRepository

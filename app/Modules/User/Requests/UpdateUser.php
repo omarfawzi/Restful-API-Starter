@@ -4,7 +4,7 @@ namespace App\Modules\User\Requests;
 
 use App\Modules\Api\Handlers\ApiRequestHandler;
 use App\Modules\Api\Responses\ApiResponse;
-use App\Modules\Api\Utilities\ApiWith;
+use App\Modules\Api\Helpers\ApiWith;
 use App\Modules\User\Conditions\UserDoesExist;
 use App\Modules\User\Dto\UserDto;
 use App\Modules\User\Services\UserService;
@@ -33,7 +33,7 @@ class UpdateUser extends ApiRequestHandler
 
         $user = $this->service->update($this->getPathParameterAsInteger('id'), $userDto);
 
-        $result = $this->transformer->transform($user, ApiWith::createWithDefault());
+        $result = $this->transformer->transform($user, ApiWith::createWith());
 
         return ApiResponse::success($result);
     }

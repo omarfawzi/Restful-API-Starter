@@ -3,7 +3,7 @@
 namespace App\Modules\User\Transformers;
 
 use App\Modules\Api\Transformers\Transformer;
-use App\Modules\Api\Utilities\ApiWith;
+use App\Modules\Api\Helpers\ApiWith;
 use App\Modules\User\Models\User;
 use Illuminate\Database\Eloquent\Model;
 

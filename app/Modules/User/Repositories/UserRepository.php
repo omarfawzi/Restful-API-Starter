@@ -3,8 +3,8 @@
 namespace App\Modules\User\Repositories;
 
 use App\Modules\Api\Repositories\BaseRepository;
-use App\Modules\Api\Utilities\ApiFilter;
-use App\Modules\Api\Utilities\Pagination;
+use App\Modules\Api\Helpers\ApiFilter;
+use App\Modules\Api\Helpers\Pagination;
 use App\Modules\User\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;

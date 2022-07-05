@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Api\Utilities;
+namespace App\Modules\Api\Helpers;
 
 use Illuminate\Http\Request;
 
@@ -10,7 +10,7 @@ abstract class ApiQuery
 
     protected array $bag = [];
 
-    public static function fromRequest(Request $request): static
+    public static function from(Request $request): static
     {
         $static = new static();
 

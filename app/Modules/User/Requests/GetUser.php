@@ -3,11 +3,11 @@
 namespace App\Modules\User\Requests;
 
 use App\Modules\Api\Handlers\ApiRequestHandler;
+use App\Modules\Api\Helpers\ApiWith;
 use App\Modules\Api\Responses\ApiResponse;
 use App\Modules\User\Conditions\UserDoesExist;
 use App\Modules\User\Services\UserService;
 use App\Modules\User\Transformers\UserTransformer;
-use App\Modules\User\With\UserWith;
 use Illuminate\Http\Request;
 use Nyholm\Psr7\Response;
 
@@ -29,9 +29,9 @@ class GetUser extends ApiRequestHandler
     {
         $user = $this->service->find($this->getPathParameterAsInteger('id'));
 
-        $userWith = UserWith::fromRequest($request);
+        $apiWith = ApiWith::from($request);
 
-        $result = $this->transformer->transform($user, $userWith);
+        $result = $this->transformer->transform($user, $apiWith);
 
         return ApiResponse::success($result);
     }

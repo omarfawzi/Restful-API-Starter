@@ -1,20 +1,18 @@
 <?php
 
-namespace App\Modules\Api\Utilities;
+namespace App\Modules\Api\Helpers;
 
 use Illuminate\Http\Request;
 
 class ApiWith extends ApiQuery
 {
-    protected array $defaults = [];
-
-    public static function createWithDefault(): static
+    public static function createWith(... $fields): static
     {
         $static = new static();
 
-        foreach ($static->defaults as $default)
+        foreach ($fields as $field)
         {
-            $static->bag[$default] = true;
+            $static->bag[$field] = true;
         }
 
         return $static;

@@ -3,6 +3,7 @@
 namespace App\Modules\User\Requests;
 
 use App\Modules\Api\Handlers\ApiRequestHandler;
+use App\Modules\Api\Helpers\ApiWith;
 use App\Modules\Api\Responses\ApiResponse;
 use App\Modules\User\Conditions\HasEmail;
 use App\Modules\User\Conditions\HasPassword;
@@ -10,7 +11,6 @@ use App\Modules\User\Conditions\UserDoesNotExist;
 use App\Modules\User\Dto\UserDto;
 use App\Modules\User\Services\UserService;
 use App\Modules\User\Transformers\UserTransformer;
-use App\Modules\User\With\UserWith;
 use Illuminate\Http\Request;
 use Nyholm\Psr7\Response;
 
@@ -36,7 +36,7 @@ class CreateUser extends ApiRequestHandler
 
         $user = $this->service->create($userDto);
 
-        $result = $this->transformer->transform($user, UserWith::createWithDefault());
+        $result = $this->transformer->transform($user, ApiWith::createWith('token'));
 
         return ApiResponse::created($result);
     }
