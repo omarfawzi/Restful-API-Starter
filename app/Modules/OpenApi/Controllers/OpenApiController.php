@@ -32,9 +32,9 @@ class OpenApiController
                 'errors' => $e->getErrors()
             ]);
             $response = new Response($e->getCode(), ApiResponse::RESPONSE_HEADERS, json_encode($data));
+        } finally {
+            $this->validator->validateResponse($response, $context);
         }
-
-        $this->validator->validateResponse($response, $context);
 
         return new JsonResponse(
             json_decode((string)$response->getBody(), true), $response->getStatusCode()
