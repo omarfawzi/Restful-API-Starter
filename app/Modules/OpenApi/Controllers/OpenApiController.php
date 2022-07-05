@@ -31,7 +31,6 @@ class OpenApiController
                 'message' => $e->getMessage(),
                 'errors' => $e->getErrors()
             ]);
-
             $response = new Response($e->getCode(), ApiResponse::RESPONSE_HEADERS, json_encode($data));
         }
 

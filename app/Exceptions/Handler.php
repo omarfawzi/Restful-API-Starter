@@ -39,8 +39,8 @@ class Handler extends ExceptionHandler
 
     private function registerErrorHandlers(): void
     {
-        $this->handleInternalErrors();
         $this->handleOpenApiError();
+        $this->handleInternalErrors();
     }
 
     private function handleInternalErrors(): void
