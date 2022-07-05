@@ -54,7 +54,7 @@ class OpenApiValidator
      * @param ResponseInterface $response
      * @throws OpenApiError
      */
-    public function validateResponse(OpenApiContext $context, ResponseInterface $response): void
+    public function validateResponse(ResponseInterface $response, OpenApiContext $context): void
     {
         $validator = (new ValidatorBuilder())
             ->fromSchema($context->openApi)

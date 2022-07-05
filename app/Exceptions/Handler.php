@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Modules\OpenApi\Errors\OpenApiError;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
@@ -39,6 +40,7 @@ class Handler extends ExceptionHandler
     private function registerErrorHandlers(): void
     {
         $this->handleInternalErrors();
+        $this->handleOpenApiError();
     }
 
     private function handleInternalErrors(): void
@@ -50,6 +52,18 @@ class Handler extends ExceptionHandler
             ];
 
             return response()->json($data, Response::HTTP_INTERNAL_SERVER_ERROR);
+        });
+    }
+
+    private function handleOpenApiError(): void
+    {
+        $this->renderable(function (OpenApiError $e) {
+            $data = array_filter([
+                'message' => $e->getMessage(),
+                'errors' => $e->getErrors()
+            ]);
+
+            return response()->json($data, Response::HTTP_BAD_REQUEST);
         });
     }
 }
