@@ -1,4 +1,4 @@
-[![Testing](https://github.com/omarfawzi/Restful-API-Starter/actions/workflows/tests.yml/badge.svg)](https://github.com/omarfawzi/Restful-API-Starter/actions/workflows/tests.yml)
+[![Testing](https://github.com/${{ env.REPOSITORY_FULL_NAME }}/actions/workflows/tests.yml/badge.svg)](https://github.com/${{ env.REPOSITORY_FULL_NAME }}/actions/workflows/tests.yml)
 
 # Restful API Starter
 
@@ -19,7 +19,7 @@ No need for custom code schema validation, the validation is done based on the d
 
 # Specifications 
 
-Added under `storage/app/schema` ([Live](https://omarfawzi.github.io//)).
+Added under `storage/app/schema` ([Live](https://${{ env.REPOSITORY_OWNER }}.github.io/${{ env.REPOSITORY_SLUG }}/)).
 
 # Get Ready
 - `make rebuild` to rebuild and start services.
@@ -29,11 +29,11 @@ Added under `storage/app/schema` ([Live](https://omarfawzi.github.io//)).
 - `make swagger-ui` to host your open api specs locally [localhost](http://localhost:8081).
 - `make test` to start running tests.
 
-Have a look over [Makefile](https://github.com/omarfawzi/Restful-API-Starter/blob/main/Makefile) for more options.
+Have a look over [Makefile](https://github.com/${{ env.REPOSITORY_FULL_NAME }}/blob/main/Makefile) for more options.
 
 # Request Life Cycle
 
-![Chart.drawio.png](https://github.com/omarfawzi/Restful-API-Starter/blob/main/Chart.png)
+![Chart.drawio.png](https://github.com/${{ env.REPOSITORY_FULL_NAME }}/blob/main/Chart.png)
 
 # Contributions
 
