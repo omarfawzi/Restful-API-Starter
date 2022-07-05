@@ -52,6 +52,11 @@
             "application/json": {
               "schema": {
                 "type": "object",
+                "required": [
+                  "name",
+                  "email",
+                  "password"
+                ],
                 "properties": {
                   "name": {
                     "type": "string",
@@ -66,8 +71,7 @@
                     "type": "string",
                     "pattern": "[A-Z]{2}[0-9]{4}"
                   }
-                },
-                "minProperties": 1
+                }
               }
             }
           }

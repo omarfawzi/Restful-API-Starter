@@ -5,10 +5,8 @@ namespace App\Modules\User\Requests;
 use App\Modules\Api\Handlers\ApiRequestHandler;
 use App\Modules\Api\Helpers\ApiWith;
 use App\Modules\Api\Responses\ApiResponse;
-use App\Modules\User\Conditions\HasEmail;
-use App\Modules\User\Conditions\HasPassword;
 use App\Modules\User\Conditions\UserDoesNotExist;
-use App\Modules\User\Dto\UserDto;
+use App\Modules\User\Dto\CreateUserData;
 use App\Modules\User\Services\UserService;
 use App\Modules\User\Transformers\UserTransformer;
 use Illuminate\Http\Request;
@@ -24,15 +22,13 @@ class CreateUser extends ApiRequestHandler
     public function getConditions(): array
     {
         return [
-            new HasPassword(),
-            new HasEmail(),
             new UserDoesNotExist()
         ];
     }
 
     public function processRequest(Request $request): Response
     {
-        $userDto = UserDto::from($request);
+        $userDto = CreateUserData::from($request);
 
         $user = $this->service->create($userDto);
 

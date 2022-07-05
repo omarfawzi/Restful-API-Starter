@@ -14,7 +14,7 @@ requestBody:
   content:
     application/json:
       schema:
-        $ref: './schemas.yaml#/UserRequest'
+        $ref: './schemas.yaml#/UpdateUserRequest'
 responses:
   200:
     description: User resource

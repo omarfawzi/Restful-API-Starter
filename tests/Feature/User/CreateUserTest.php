@@ -34,8 +34,8 @@ class CreateUserTest extends TestCase
     {
         unset($payload['email']);
         $this->postJson('api/v1/users', $payload)->assertStatus(Response::HTTP_BAD_REQUEST)->assertJsonFragment([
-                'message' => 'Email is missing',
-            ]);
+            'errors' => ['email' => "Keyword validation failed: Required property 'email' must be present in the object"]
+        ]);
     }
 
     /**
@@ -47,9 +47,7 @@ class CreateUserTest extends TestCase
     public function testCreateUserWithInvalidEmail(array $payload): void
     {
         $payload['email'] = 1234;
-        $this->postJson('api/v1/users', $payload)
-            ->assertStatus(Response::HTTP_BAD_REQUEST)
-            ->assertJsonFragment([
+        $this->postJson('api/v1/users', $payload)->assertStatus(Response::HTTP_BAD_REQUEST)->assertJsonFragment([
                 'errors' => ['email' => "Value expected to be 'string', 'integer' given."]
             ]);
     }

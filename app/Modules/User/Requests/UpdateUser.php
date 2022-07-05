@@ -6,7 +6,7 @@ use App\Modules\Api\Handlers\ApiRequestHandler;
 use App\Modules\Api\Responses\ApiResponse;
 use App\Modules\Api\Helpers\ApiWith;
 use App\Modules\User\Conditions\UserDoesExist;
-use App\Modules\User\Dto\UserDto;
+use App\Modules\User\Dto\UpdateUserData;
 use App\Modules\User\Services\UserService;
 use App\Modules\User\Transformers\UserTransformer;
 use Illuminate\Http\Request;
@@ -29,7 +29,7 @@ class UpdateUser extends ApiRequestHandler
 
     public function processRequest(Request $request): Response
     {
-        $userDto = UserDto::from($request);
+        $userDto = UpdateUserData::from($request);
 
         $user = $this->service->update($this->getPathParameterAsInteger('id'), $userDto);
 

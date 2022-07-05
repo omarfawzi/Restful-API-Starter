@@ -17,11 +17,11 @@ class UserRepository extends BaseRepository
         return User::query()->create(['email' => $email, 'name' => $name, 'password' => bcrypt($password)]);
     }
 
-    public function update(User $user, string $name, string $email = null, string $password = null): User
+    public function update(User $user, ?string $name, ?string $email, ?string $password): User
     {
-        $fields = ['name' => $name, 'email' => $email, 'password' => $password];
+        $fields = array_filter(['name' => $name, 'email' => $email, 'password' => $password]);
 
-        $user->update(array_filter($fields));
+        $user->update($fields);
 
         return $user;
     }

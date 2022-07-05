@@ -27,7 +27,7 @@ UserCollection:
         $ref: '#/User'
     cursor:
       $ref: '../openapi.yaml#/components/schemas/Cursor'
-UserRequest:
+UpdateUserRequest:
   type: object
   properties:
     name:
@@ -41,3 +41,20 @@ UserRequest:
       type: string
       pattern: '[A-Z]{2}[0-9]{4}'
   minProperties: 1
+CreateUserRequest:
+  type: object
+  required:
+    - name
+    - email
+    - password
+  properties:
+    name:
+      type: string
+      minLength: 3
+    email:
+      format: email
+      type: string
+    password:
+      format: password
+      type: string
+      pattern: '[A-Z]{2}[0-9]{4}'

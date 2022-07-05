@@ -9,7 +9,7 @@ requestBody:
   content:
     application/json:
       schema:
-        $ref: './schemas.yaml#/UserRequest'
+        $ref: './schemas.yaml#/CreateUserRequest'
 responses:
   201:
     description: User resource
