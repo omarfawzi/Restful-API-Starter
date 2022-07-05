@@ -4,6 +4,7 @@ jobs:
   markdown-readme:
     name: "Update Templates"
     runs-on: ubuntu-latest
+    needs: run-tests
     steps:
       - name: "📥  Fetching Repository Contents"
         uses: actions/checkout@main
