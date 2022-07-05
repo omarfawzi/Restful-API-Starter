@@ -2,8 +2,24 @@ name: Testing
 on: [push, pull_request]
 jobs:
   markdown-readme:
-    name: Dynamic Readme
-    uses: varunsridharan/action-dynamic-readme@main
+    name: "Update Templates"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "📥  Fetching Repository Contents"
+        uses: actions/checkout@main
+
+      - name: "💾  Github Repository Metadata"
+        uses: varunsridharan/action-repository-meta@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "💫  Dynamic Template Render"
+        uses: varunsridharan/action-dynamic-readme@main
+        with:
+          files: |
+            README.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   run-tests:
     name: Laravel (PHP ${{ matrix.php-versions }})
     runs-on: ubuntu-latest
