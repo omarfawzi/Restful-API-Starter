@@ -17,7 +17,7 @@ jobs:
         uses: varunsridharan/action-dynamic-readme@main
         with:
           files: |
-            README.md
+            .github/README_TEMPLATE.md=README.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   run-tests:
