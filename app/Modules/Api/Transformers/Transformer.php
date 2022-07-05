@@ -11,7 +11,7 @@ abstract class Transformer
 {
     abstract public function transform(Model $model, ApiWith $apiWith): array;
 
-    public function transformCollection(Collection $collection, Pagination $paginationParameter, ApiWith $apiWith): array
+    public function transformCollection(Collection $collection, Pagination $pagination, ApiWith $apiWith): array
     {
         $result = ['entities' => [], 'cursor' => null];
 
@@ -21,7 +21,7 @@ abstract class Transformer
         }
 
         if ($collection->isNotEmpty()){
-            $result['cursor'] = base64_encode($collection->last()->{$paginationParameter->sortBy});
+            $result['cursor'] = base64_encode($collection->last()->{$pagination->sortBy});
         }
 
         return $result;
