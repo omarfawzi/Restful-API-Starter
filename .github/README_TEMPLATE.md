@@ -1,4 +1,4 @@
-[![Testing](https://github.com/${{ env.REPOSITORY_FULL_NAME }}/actions/workflows/tests.yml/badge.svg)](https://github.com/${{ env.REPOSITORY_FULL_NAME }}/actions/workflows/main.yml)
+[![Testing](https://github.com/${{ env.REPOSITORY_FULL_NAME }}/actions/workflows/main.yml/badge.svg)](https://github.com/${{ env.REPOSITORY_FULL_NAME }}/actions/workflows/main.yml)
 
 # Restful API Starter
 
