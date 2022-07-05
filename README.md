@@ -1,4 +1,4 @@
-[![Testing](https://github.com/omarfawzi/Restful-API-Starter/actions/workflows/tests.yml/badge.svg)](https://github.com/omarfawzi/Restful-API-Starter/actions/workflows/main.yml)
+[![Testing](https://github.com/omarfawzi/Restful-API-Starter/actions/workflows/main.yml/badge.svg)](https://github.com/omarfawzi/Restful-API-Starter/actions/workflows/main.yml)
 
 # Restful API Starter
 
