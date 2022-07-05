@@ -2,9 +2,10 @@
 
 namespace App\Modules\User\Requests;
 
-use App\Modules\Api\Handlers\ApiRequestHandler;
 use App\Modules\Api\Responses\ApiResponse;
 use App\Modules\Api\Helpers\ApiWith;
+use App\Modules\Api\Validator\Validator;
+use App\Modules\OpenApi\Handlers\RequestHandler;
 use App\Modules\User\Conditions\UserDoesExist;
 use App\Modules\User\Dto\UpdateUserData;
 use App\Modules\User\Services\UserService;
@@ -12,7 +13,7 @@ use App\Modules\User\Transformers\UserTransformer;
 use Illuminate\Http\Request;
 use Nyholm\Psr7\Response;
 
-class UpdateUser extends ApiRequestHandler
+class UpdateUser extends RequestHandler
 {
     public function __construct(
         private UserTransformer $transformer,
@@ -20,15 +21,12 @@ class UpdateUser extends ApiRequestHandler
     ) {
     }
 
-    public function getConditions(): array
+    public function __invoke(Request $request): Response
     {
-        return [
+        Validator::validate($request, [
             new UserDoesExist($this->getPathParameterAsInteger('id'))
-        ];
-    }
+        ]);
 
-    public function processRequest(Request $request): Response
-    {
         $userDto = UpdateUserData::from($request);
 
         $user = $this->service->update($this->getPathParameterAsInteger('id'), $userDto);
