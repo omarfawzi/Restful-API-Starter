@@ -33,15 +33,9 @@ class OpenApiController
             ]);
             $response = new Response($e->getCode(), ApiResponse::RESPONSE_HEADERS, json_encode($data));
         }
-<<<<<<< HEAD
-        
-        $this->validator->validateResponse($response, $context);
-        
-=======
 
         $this->validator->validateResponse($response, $context);
 
->>>>>>> 07045b3 (better Dtos separation)
         return new JsonResponse(
             json_decode((string)$response->getBody(), true), $response->getStatusCode()
         );
