@@ -2,11 +2,6 @@
 
 # Restful API Starter
 
-Sometimes it's a hassle to come up with some good api design for your project, the project encourages the best practices of how your code modules and services should look like in order to make them less error prune, more consistent, less coupled and highly testable.
-
-
-Please keep in mind that this is not the best design you can get but it's just a starter probably you will need to modify your template a little bit before integration it with real time business.
-
 Powered By
 - PHP 8.1.4
 - MYSQL 8
@@ -15,7 +10,7 @@ Powered By
 - [OpenAPI PSR-7 Message (HTTP Request/Response) Validator](https://github.com/thephpleague/openapi-psr7-validator)
 - Docker
 
-No need for custom code schema validation, the validation is done based on the definition added on the open api schema for each operation, all you need to care about is only your business logic and ofcourse the validation of that logic only. 
+No need for custom code schema validation, the validation is done based on the specifcation of the open api schema for each operation, all you need to care about is only your business logic and ofcourse the validation of that logic as well. 
 
 # Specifications 
 
