@@ -24,8 +24,8 @@ Added under `storage/app/schema` ([Live](https://${{ env.REPOSITORY_OWNER }}.git
 # Get Ready
 - `make rebuild` to rebuild and start services.
 - Install [npm](https://nodejs.org/en/download) for local development.
-- Add your open api specifications (under `storage/app/schema`) and **don't** forget to define an operationId for your new operation.
-- Add the new operationId and the corresponding `RequestHandler` to the `ApiHandler::MAP` (located at `app/Modules/Api/ApiHandler.php`). 
+- Add your open api specifications (under `storage/app/schema`) and **don't** forget to define an `operationId` for your new operation.
+- Add the new `operationId` and the corresponding `RequestHandler` to the `ApiHandler::MAP` (located at `app/Modules/Api/ApiHandler.php`). 
 - `make bundle` to combine and validate your specs.
 - `make swagger-ui` to host your open api specs locally [localhost](http://localhost:8081).
 - `make test` to start running tests.
