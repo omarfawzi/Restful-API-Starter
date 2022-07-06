@@ -1,4 +1,4 @@
-name: Pipeline
+name: Build & Test
 on: [push, pull_request]
 jobs:
   markdown-readme:
