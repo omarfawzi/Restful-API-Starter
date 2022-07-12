@@ -37,7 +37,7 @@ class RequestHandlerFactory
 
         if (false === is_a($handler, RequestHandler::class))
         {
-            throw new Exception(sprintf('Handler must be instance of %s', RequestHandler::class));
+            throw new Exception(sprintf('Handler must be an instance of %s', RequestHandler::class));
         }
 
         $handler->setPathParameterBag($pathParams);
