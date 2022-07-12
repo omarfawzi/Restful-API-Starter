@@ -1,5 +1,8 @@
-# Restful API Starter
 [![Testing](https://github.com/${{ env.REPOSITORY_FULL_NAME }}/actions/workflows/main.yml/badge.svg)](https://github.com/${{ env.REPOSITORY_FULL_NAME }}/actions/workflows/main.yml)
+
+# Restful API Starter
+
+No need for custom code schema validation, the validation is done based on the specifcation of the open api schema for each operation, all you need to care about is only your business logic and ofcourse the validation of that logic as well. 
 
 ### Requirements
 - PHP >= 8.0
@@ -9,8 +12,6 @@
 ### Powered By
 - Open API (3.0.2)
 - [OpenAPI PSR-7 Message (HTTP Request/Response) Validator](https://github.com/thephpleague/openapi-psr7-validator)
-
-No need for custom code schema validation, the validation is done based on the specifcation of the open api schema for each operation, all you need to care about is only your business logic and ofcourse the validation of that logic as well. 
 
 ### Specifications 
 
