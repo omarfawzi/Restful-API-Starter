@@ -1,22 +1,22 @@
+# Restful API Starter
 [![Testing](https://github.com/omarfawzi/Restful-API-Starter/actions/workflows/main.yml/badge.svg)](https://github.com/omarfawzi/Restful-API-Starter/actions/workflows/main.yml)
 
-# Restful API Starter
-
-Powered By
-- PHP 8.1.4
+### Requirements
+- PHP >= 8.0
 - MYSQL 8
 - Laravel 9
+
+### Powered By
 - Open API (3.0.2)
 - [OpenAPI PSR-7 Message (HTTP Request/Response) Validator](https://github.com/thephpleague/openapi-psr7-validator)
-- Docker
 
 No need for custom code schema validation, the validation is done based on the specifcation of the open api schema for each operation, all you need to care about is only your business logic and ofcourse the validation of that logic as well. 
 
-# Specifications 
+### Specifications 
 
 Added under `storage/app/schema` ([Live](https://omarfawzi.github.io/Restful-API-Starter/)).
 
-# Get Ready
+### Get Ready
 - `make rebuild` to rebuild and start services.
 - Install [npm](https://nodejs.org/en/download) for local development.
 - Add your open api specifications (under `storage/app/schema`) and **don't** forget to define an `operationId` for your new operation.
@@ -27,10 +27,10 @@ Added under `storage/app/schema` ([Live](https://omarfawzi.github.io/Restful-API
 
 Have a look over [Makefile](https://github.com/omarfawzi/Restful-API-Starter/blob/main/Makefile) for more options.
 
-# Request Life Cycle
+### Request Life Cycle
 
 ![Chart.drawio.png](https://github.com/omarfawzi/Restful-API-Starter/blob/main/Chart.png)
 
-# Contributions
+### Contributions
 
 Feel free to create Pull Requests.
