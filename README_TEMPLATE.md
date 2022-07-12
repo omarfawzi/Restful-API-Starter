@@ -2,7 +2,11 @@
 
 # Restful API Starter
 
-No need for custom code schema validation, the validation is done based on the specifcation of the open api schema for each operation, all you need to care about is only your business logic and ofcourse the validation of that logic as well. 
+**Avoid** request schema code validation, starter which is integrated with the agnostic open api schema + validation in order to provide the best restful design for your API services, care about your business logic validation, implementation and leave the starter to take care of the rest.  
+
+### Request Life Cycle
+
+![Chart.drawio.png](https://github.com/${{ env.REPOSITORY_FULL_NAME }}/blob/main/Chart.png)
 
 ### Requirements
 - PHP >= 8.0
@@ -27,10 +31,6 @@ Added under `storage/app/schema` ([Live](https://${{ env.REPOSITORY_OWNER }}.git
 - `make test` to start running tests.
 
 Have a look over [Makefile](https://github.com/${{ env.REPOSITORY_FULL_NAME }}/blob/main/Makefile) for more options.
-
-### Request Life Cycle
-
-![Chart.drawio.png](https://github.com/${{ env.REPOSITORY_FULL_NAME }}/blob/main/Chart.png)
 
 ### Contributions
 
