@@ -35,13 +35,13 @@ class RequestHandlerFactory
         /** @var RequestHandler $handler */
         $handler = app(ApiHandler::MAP[$operation->operationId]);
 
-        $handler->setPathParameterBag($pathParams);
-
         if (false === is_a($handler, RequestHandler::class))
         {
             throw new Exception(sprintf('Handler must be instance of %s', RequestHandler::class));
         }
 
+        $handler->setPathParameterBag($pathParams);
+        
         return $handler;
     }
 }
