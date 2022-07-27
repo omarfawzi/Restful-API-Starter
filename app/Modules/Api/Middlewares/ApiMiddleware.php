@@ -3,31 +3,38 @@
 namespace App\Modules\Api\Middlewares;
 
 use App\Modules\Api\Errors\ApiError;
-use Closure;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use App\Modules\OpenApi\Middlewares\Middleware;
 use Illuminate\Http\Response;
 use Laravel\Sanctum\PersonalAccessToken;
+use Psr\Http\Message\ServerRequestInterface;
 
-class ApiMiddleware
+class ApiMiddleware implements Middleware
 {
     /**
      * Handle an incoming request.
      *
-     * @param Request $request
-     * @param Closure $next
-     * @return Closure|JsonResponse
+     * @param ServerRequestInterface $serverRequest
+     * @return bool
      * @throws ApiError
      */
-    public function handle(Request $request, Closure $next): mixed
+    public function handle(ServerRequestInterface $serverRequest): bool
     {
-        $token = $request->bearerToken();
-
-        if (null === PersonalAccessToken::findToken($token))
-        {
-            throw new ApiError('Access Token is missing or not found', [], Response::HTTP_UNAUTHORIZED);
+        if (false === $serverRequest->hasHeader('Authorization')) {
+            return false;
         }
 
-        return $next($request);
+        $header = $serverRequest->getHeader('Authorization')[0];
+
+        if (preg_match('/Bearer\s(\S+)/', $header, $matches)) {
+            $token = $matches[1];
+        } else {
+            return false;
+        }
+
+        if (null === PersonalAccessToken::findToken($token)) {
+            throw new ApiError('Bearer Token is missing or not found', [], Response::HTTP_UNAUTHORIZED);
+        }
+
+        return true;
     }
 }

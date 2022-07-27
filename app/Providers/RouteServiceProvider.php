@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Modules\Api\Middlewares\ApiMiddleware;
 use App\Modules\OpenApi\Controllers\OpenApiController;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -40,25 +39,10 @@ class RouteServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         $this->routes(function () {
-            $this->configurePublicRoutes();
-            $this->configureProtectedRoutes();
+            $this->configureRoutes();
         });
     }
 
-    private function configurePublicRoutes(): void
-    {
-        Route::group(['prefix' => 'api/v1'], function () {
-            Route::post('users', OpenApiController::class);
-        });
-    }
-
-    private function configureProtectedRoutes(): void
-    {
-        Route::group(['prefix' => 'api/v1', 'middleware' => ApiMiddleware::class], function () {
-            Route::any('{slug}', OpenApiController::class)
-                ->where('slug', '.*');
-        });
-    }
     /**
      * Configure the rate limiters for the application.
      *
@@ -68,6 +52,14 @@ class RouteServiceProvider extends ServiceProvider
     {
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+        });
+    }
+
+    private function configureRoutes(): void
+    {
+        Route::group(['prefix' => 'api/v1'], function () {
+            Route::any('{slug}', OpenApiController::class)
+                ->where('slug', '.*');
         });
     }
 }

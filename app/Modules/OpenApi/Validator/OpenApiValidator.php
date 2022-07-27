@@ -5,9 +5,11 @@ namespace App\Modules\OpenApi\Validator;
 use App\Modules\OpenApi\Contexts\OpenApiContext;
 use App\Modules\OpenApi\Errors\OpenApiError;
 use App\Modules\OpenApi\Factories\OpenApiErrorFactory;
+use App\Modules\OpenApi\Services\AuthenticationManager;
 use Cache\Adapter\PHPArray\ArrayCachePool;
 use Illuminate\Support\Facades\Storage;
 use League\OpenAPIValidation\PSR7\Exception\ValidationFailed;
+use League\OpenAPIValidation\PSR7\SchemaFactory\JsonFactory;
 use League\OpenAPIValidation\PSR7\ValidatorBuilder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -20,7 +22,7 @@ class OpenApiValidator
 
     private array $cache = [];
 
-    public function __construct(private OpenApiErrorFactory $openApiErrorFactory)
+    public function __construct(private OpenApiErrorFactory $openApiErrorFactory, private AuthenticationManager $authenticationManager)
     {
         $this->cachePool = new ArrayCachePool(null, $this->cache);
     }
@@ -32,10 +34,14 @@ class OpenApiValidator
      */
     public function validateRequest(ServerRequestInterface $serverRequest): OpenApiContext
     {
-        $schema = $this->getOpenApiSchema();
+        $schemaFactory = new JsonFactory($this->getOpenApiFile());
+
+        $schema = $schemaFactory->createSchema();
+
+        $this->authenticationManager->authenticate($serverRequest, $schema);
 
         $validator = (new ValidatorBuilder())
-            ->fromJson($schema)
+            ->fromSchema($schema)
             ->setCache($this->cachePool)
             ->overrideCacheKey(self::CACHE_KEY)
             ->getServerRequestValidator();
@@ -69,7 +75,7 @@ class OpenApiValidator
         }
     }
 
-    private function getOpenApiSchema(): string
+    private function getOpenApiFile(): string
     {
         return Storage::get(config('app.open_api_file_path'));
     }
