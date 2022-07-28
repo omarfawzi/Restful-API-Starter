@@ -4,6 +4,7 @@ namespace App\Modules\OpenApi\Handlers;
 
 use Exception;
 use Illuminate\Http\Request;
+use InvalidArgumentException;
 use Nyholm\Psr7\Response;
 
 abstract class RequestHandler
@@ -37,7 +38,7 @@ abstract class RequestHandler
     private function getPathParameter(string $parameter): string|int
     {
         if (false === array_key_exists($parameter, $this->pathParameterBag)){
-            throw new Exception("Path parameter : $parameter not found within the current request path.");
+            throw new InvalidArgumentException("Path parameter : $parameter not found within the current request path.");
         }
 
         return $this->pathParameterBag[$parameter];

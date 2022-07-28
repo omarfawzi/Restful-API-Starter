@@ -7,6 +7,7 @@ use App\Modules\OpenApi\Contexts\OpenApiContext;
 use App\Modules\OpenApi\Handlers\RequestHandler;
 use Exception;
 use Illuminate\Http\Request;
+use InvalidArgumentException;
 use League\OpenAPIValidation\PSR7\SpecFinder;
 
 class RequestHandlerFactory
@@ -23,7 +24,7 @@ class RequestHandlerFactory
         $pathParams = $context->operationAddress->parseParams($request->path());
 
         if (false === array_key_exists($operation->operationId, ApiHandler::MAP)){
-            throw new Exception(
+            throw new InvalidArgumentException(
                 sprintf(
                     'Operation %s not implemented, please add the operation and implementation to %s::MAP',
                     $operation->operationId,
@@ -37,7 +38,7 @@ class RequestHandlerFactory
 
         if (false === is_a($handler, RequestHandler::class))
         {
-            throw new Exception(sprintf('Handler must be an instance of %s', RequestHandler::class));
+            throw new InvalidArgumentException(sprintf('Handler must be an instance of %s', RequestHandler::class));
         }
 
         $handler->setPathParameterBag($pathParams);

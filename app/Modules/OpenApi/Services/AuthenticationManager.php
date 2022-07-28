@@ -6,6 +6,7 @@ use App\Modules\OpenApi\Factories\AuthenticationFactory;
 use cebe\openapi\spec\OpenApi;
 use Exception;
 use Illuminate\Validation\UnauthorizedException;
+use InvalidArgumentException;
 use League\OpenAPIValidation\PSR7\PathFinder;
 use League\OpenAPIValidation\PSR7\SpecFinder;
 use Psr\Http\Message\ServerRequestInterface;
@@ -26,11 +27,11 @@ class AuthenticationManager
         $operationAddresses = $pathFinder->search();
 
         if (empty($operationAddresses)) {
-            throw new Exception("Operation with uri: {$serverRequest->getUri()} doesn't exist in the open api specs.");
+            throw new InvalidArgumentException("Operation with uri: {$serverRequest->getUri()} doesn't exist in the open api specs.");
         }
 
         if (count($operationAddresses) > 1) {
-            throw new Exception(
+            throw new InvalidArgumentException(
                 "Duplicate operations for uri: {$serverRequest->getUri()} exist in the open api specs."
             );
         }
