@@ -25,7 +25,7 @@ class OpenApiController
         $context = $this->validator->validateRequest($this->serverRequest);
 
         try {
-            $response = $this->factory->make($context, $request)->__invoke($request);
+            $response = $this->factory->make($context, $request->path())($request);
         } catch (ApiError $e) {
             $data = array_filter([
                 'message' => $e->getMessage(),
