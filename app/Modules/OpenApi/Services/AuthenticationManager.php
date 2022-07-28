@@ -6,8 +6,7 @@ use App\Modules\OpenApi\Factories\AuthenticationFactory;
 use cebe\openapi\spec\OpenApi;
 use Exception;
 use Illuminate\Validation\UnauthorizedException;
-use InvalidArgumentException;
-use League\OpenAPIValidation\PSR7\PathFinder;
+use League\OpenAPIValidation\PSR7\OperationAddress;
 use League\OpenAPIValidation\PSR7\SpecFinder;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -20,25 +19,14 @@ class AuthenticationManager
     /**
      * @throws Exception
      */
-    public function authenticate(ServerRequestInterface $serverRequest, OpenApi $openApi): void
-    {
-        $pathFinder = new PathFinder($openApi, $serverRequest->getUri(), $serverRequest->getMethod());
+    public function authenticate(
+        ServerRequestInterface $serverRequest,
+        OperationAddress $operationAddress,
+        OpenApi $schema
+    ): void {
+        $specFinder = new SpecFinder($schema);
 
-        $operationAddresses = $pathFinder->search();
-
-        if (empty($operationAddresses)) {
-            throw new InvalidArgumentException("Operation with uri: {$serverRequest->getUri()} doesn't exist in the open api specs.");
-        }
-
-        if (count($operationAddresses) > 1) {
-            throw new InvalidArgumentException(
-                "Duplicate operations for uri: {$serverRequest->getUri()} exist in the open api specs."
-            );
-        }
-
-        $specFinder = new SpecFinder($openApi);
-
-        $securityRequirements = $specFinder->findSecuritySpecs($operationAddresses[0]);
+        $securityRequirements = $specFinder->findSecuritySpecs($operationAddress);
 
         if (empty($securityRequirements)) {
             return;
