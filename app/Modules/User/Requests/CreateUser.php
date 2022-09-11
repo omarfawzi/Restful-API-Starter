@@ -8,6 +8,7 @@ use App\Modules\Api\Validator\Validator;
 use App\Modules\OpenApi\Handlers\RequestHandler;
 use App\Modules\User\Conditions\UserDoesNotExist;
 use App\Modules\User\Dto\CreateUserData;
+use App\Modules\User\Resolver\UserResolver;
 use App\Modules\User\Services\UserService;
 use App\Modules\User\Transformers\UserTransformer;
 use Illuminate\Http\Request;
@@ -17,13 +18,14 @@ class CreateUser extends RequestHandler
 {
     public function __construct(
         private UserTransformer $transformer,
-        private UserService $service
+        private UserService $service,
+        private UserResolver $userResolver
     ) {}
 
     public function __invoke(Request $request): Response
     {
         Validator::validate($request, [
-            new UserDoesNotExist()
+            new UserDoesNotExist($this->userResolver)
         ]);
 
         $userDto = CreateUserData::from($request);

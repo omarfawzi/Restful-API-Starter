@@ -9,9 +9,11 @@ use Illuminate\Http\Request;
 
 class UserDoesNotExist implements Condition
 {
+    public function __construct(private UserResolver $userResolver){}
+
     public function validate(Request $request): ?ApiError
     {
-        $user = app(UserResolver::class)->resolveByEmail($request->get('email'));
+        $user = $this->userResolver->resolveByEmail($request->get('email'));
 
         if (null !== $user) {
             return new ApiError('User already exists', ['email' => 'User already exists for such email.']);

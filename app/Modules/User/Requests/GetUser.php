@@ -7,6 +7,7 @@ use App\Modules\Api\Responses\ApiResponse;
 use App\Modules\Api\Validator\Validator;
 use App\Modules\OpenApi\Handlers\RequestHandler;
 use App\Modules\User\Conditions\UserDoesExist;
+use App\Modules\User\Resolver\UserResolver;
 use App\Modules\User\Services\UserService;
 use App\Modules\User\Transformers\UserTransformer;
 use Illuminate\Http\Request;
@@ -16,13 +17,17 @@ class GetUser extends RequestHandler
 {
     public function __construct(
         private UserTransformer $transformer,
-        private UserService $service
+        private UserService $service,
+        private UserResolver $userResolver
     ) {}
 
     public function __invoke(Request $request): Response
     {
         Validator::validate($request, [
-            new UserDoesExist($this->getPathParameterAsInteger('id'))
+            new UserDoesExist(
+                $this->userResolver,
+                $this->getPathParameterAsInteger('id')
+            ),
         ]);
 
         $user = $this->service->find($this->getPathParameterAsInteger('id'));
