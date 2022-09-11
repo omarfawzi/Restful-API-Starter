@@ -21,6 +21,17 @@
 
 Added under `storage/app/schema` ([Live](https://omarfawzi.github.io/Restful-API-Starter/)).
 
+### Routes
+
+Routes are imported from the open api specifications to provide a more generic way for configuring routes, 
+this also means that accessing any routes not specified in the open api specifications would return an error.
+
+For more info check `App\Providers\RouteServiceProvider::configureRoutes`
+
+### Security
+
+Security is done based on the specification as well and handled by the `App\Modules\OpenApi\Services\AuthenticationManager`
+
 ### Get Ready
 - `make rebuild` to rebuild and start services.
 - Install [npm](https://nodejs.org/en/download) for local development.
