@@ -46,9 +46,7 @@ class OpenApiValidator
 
         $address = $this->validateAndReturnAddress($serverRequest, $schema);
 
-        if (false === empty($securityRequirements)) {
-            $this->authenticationManager->authenticate($serverRequest, $address, $schema);
-        }
+        $this->authenticationManager->authenticate($serverRequest, $address, $schema);
 
         $validator = (new ValidatorBuilder())
             ->fromSchema($schema)
